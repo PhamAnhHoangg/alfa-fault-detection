@@ -1,4 +1,6 @@
-﻿# Fault detection on real UAV flights (ALFA dataset): sensors vs. command channels
+# Fault detection on real UAV flights (ALFA dataset): sensors vs. command channels
+
+[![tests](https://github.com/PhamAnhHoangg/alfa-fault-detection/actions/workflows/tests.yml/badge.svg)](https://github.com/PhamAnhHoangg/alfa-fault-detection/actions/workflows/tests.yml)
 
 Detects the start of injected faults (engine failure and control-surface faults) in real flights of a fixed-wing UAV,
 one second at a time, using only data from the past. Three detectors are compared on a locked test set, and the
@@ -130,6 +132,10 @@ These figures are produced by `src/06_oof_predictions.py` (out-of-fold predictio
 - `experiments/` - the exploration and ablation scripts in the order they were run (signal screening with a placebo
   control, baselines, supervised and anomaly models, the frozen-channel investigation). They still contain the original
   absolute paths and are kept as a record of the investigation, not meant to run as they are.
+- `src/06_oof_predictions.py`, `src/07_health_figures.py` - out-of-fold predictions on the dev folds, and the health-check figures built from them (run 06 first; it writes `results/`, which is not committed).
+- `src/08_correlation.py` - within-flight correlation check: which signals move with the fault label, and which features duplicate each other (figures 6 and 7).
+- `tests/` - pytest tests for `evalkit.py` and the data split. The tests that need the data are skipped when it is not available. Run: `python -m pytest`.
+- `.github/workflows/` - GitHub Actions: runs the tests on every push.
 - `figures/` - the plots above.
 
 ## How to run
