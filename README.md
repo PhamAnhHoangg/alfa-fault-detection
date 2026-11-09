@@ -86,6 +86,26 @@ the one-label rule could not express two faults.
 - D2 reads the injected command and would not transfer to a real aircraft. Channel meanings are inferred.
 - One aircraft type and one dataset; no check on other platforms.
 - The forest threshold (0.5) was not tuned.
+- Recall on aileron, rudder and elevator faults is low on the dev folds (0.04, 0.02, 0.15). The forest mainly detects engine faults.
+- Results vary by recording day (forward-in-time AP down to 0.27, PSI 1.46 on one feature), so they may not carry over to new days or aircraft.
+- Reported detection delays are about 1 s optimistic (see the 1 s lag test above).
+
+## Model health checks
+
+Extra checks on the random forest, run on the **dev folds only** (the locked test set was not used). Script: `experiments/step32_health.py`.
+
+| Check | Result | Reading |
+|---|---|---|
+| Precision / recall | 0.92 / 0.38 | Alarms are usually right, but most fault seconds are missed |
+| Recall by fault type | engine 0.61, elevator 0.15, aileron 0.04, rudder 0.02 | Mostly an engine-fault detector |
+| Class imbalance | 15% fault seconds; AP 0.65 vs 0.155 for random guessing (4.2x) | Real skill above chance. Class weights did not change AP (0.65 either way) |
+| Calibration | Brier skill 0.35, ECE 0.061 | Overestimates between 0.1 and 0.5, roughly right or low above 0.5 |
+| Overfitting | train AP 0.99, held-out AP 0.66 | Large gap, but dev F1 (0.51) and locked-test F1 (0.50) agree |
+| Learning curve | validation AP 0.61, 0.64, 0.65, 0.65 | Flat: more of the same flights is unlikely to help much |
+| Drift | forward-in-time AP by day 0.84, 0.27, 0.64, 0.82; PSI 1.46 (alt_error mean) and 0.33 (hud_altitude mean) | Performance depends on the recording day |
+| Leakage | shuffled-label AP 0.18 (chance 0.155); no label-like feature names; 1 s lag: F1 0.51 to 0.47, median delay 5.0 to 6.0 s | No leak found. Reported delays are about 1 s optimistic |
+
+Leave-one-day-out F1: 0.77, 0.77, 0.04, 0.50, 0.62. The day with AP 0.27 (2018-09-11) holds most of the non-engine faults.
 
 ## Repository layout
 
