@@ -106,6 +106,29 @@ the one-label rule could not express two faults.
 
 ## Credits
 
-Data and tools: Keipour, Mousaei and Scherer, "ALFA: A dataset for UAV fault and anomaly detection",
-*International Journal of Robotics Research* 40(2-3):515-520, 2021, https://doi.org/10.1177/0278364920966642
-(CC BY 4.0). The dataset is not redistributed here.
+**Data and paper**
+
+- Keipour, A., Mousaei, M., Scherer, S. "ALFA: A Dataset for UAV Fault and Anomaly Detection." International Journal of Robotics Research 40(2-3):515-520, 2021. https://doi.org/10.1177/0278364920966642
+- ALFA dataset, Carnegie Mellon University, licence CC BY 4.0. Not redistributed here, download it from the source: https://doi.org/10.1184/R1/12707963
+
+**Methods**
+
+- Breiman, L. "Random Forests." Machine Learning 45:5-32, 2001.
+- Liu, F. T., Ting, K. M., Zhou, Z.-H. "Isolation Forest." IEEE ICDM, 2008.
+- Pedregosa et al. "Scikit-learn: Machine Learning in Python." JMLR 12:2825-2830, 2011.
+
+**Background reading on testing ML models**
+
+The checks in this repo are our own code. These sources describe the same ideas:
+
+- scikit-learn, "Common pitfalls and recommended practices" (data leakage, preprocessing): https://scikit-learn.org/stable/common_pitfalls.html
+- Made With ML, testing lesson: https://madewithml.com/courses/mlops/testing/
+- Eugene Yan, "How to Test Machine Learning Code and Systems": https://eugeneyan.com/writing/testing-ml/
+- Jeremy Jordan, "Effective testing for machine learning systems": https://www.jeremyjordan.me/testing-ml/
+- Breck et al., "The ML Test Score: A Rubric for ML Production Readiness and Technical Debt Reduction," Google, 2017.
+- Evidently documentation (data drift; our PSI check is hand-written): https://docs.evidentlyai.com/
+
+**Author and acknowledgements**
+
+- Author: Pham Anh Hoang (GitHub: [PhamAnhHoangg](https://github.com/PhamAnhHoangg))
+- AI assistance tool: Claude Sonnet 5.5 (Anthropic)
