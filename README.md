@@ -107,6 +107,22 @@ Extra checks on the random forest, run on the **dev folds only** (the locked tes
 
 Leave-one-day-out F1: 0.77, 0.77, 0.04, 0.50, 0.62. The day with AP 0.27 (2018-09-11) holds most of the non-engine faults.
 
+### Figures
+
+![Recall by fault type](figures/fig3_recall_by_type.png)
+
+Recall by fault type on the dev folds. The forest finds most engine-fault seconds but very few aileron, rudder or elevator ones. The 3-in-a-row alarm rule removes false alarms but costs recall (rudder 0.18 to 0.02). Elevator has only 13 fault seconds and rudder 44, so those bars are noisy.
+
+![Alarms per dev flight](figures/fig5_alarm_timeline.png)
+
+Each row is one dev flight, aligned at the fault start. Every engine flight raised an alarm after the fault, roughly 3 to 7 seconds later in most flights. Most aileron and rudder flights raised none, and a few alarms fire before the fault (false alarms).
+
+![Confusion matrix](figures/fig4_confusion_matrix.png)
+
+Confusion matrix of the 3-in-a-row alarm, as a share of each actual class: 99% of normal seconds stay quiet (1% false alarms) and 38% of fault seconds are detected.
+
+These figures are produced by `src/06_oof_predictions.py` (out-of-fold predictions, saved to `results/`, which is not committed) and `src/07_health_figures.py`.
+
 ## Repository layout
 
 - `src/` - the pipeline: `01_build_table.py`, `02_make_split.py`, `03_command_features.py`, `04_final_test.py`,
