@@ -125,6 +125,34 @@ Confusion matrix of the 3-in-a-row alarm, as a share of each actual class: 99% o
 
 These figures are produced by `src/06_oof_predictions.py` (out-of-fold predictions, saved to `results/`, which is not committed) and `src/07_health_figures.py`.
 
+## Model comparison
+
+The random forest was compared with two other model families on the same dev folds: the same 21 sensor
+features, the same alarm rule (probability >= 0.5, three alarms in a row) and 5 random seeds. The settings were
+fixed in advance and not tuned. The locked test set was not used.
+
+| Model | F1 | Precision | Engine recall | Other-fault recall | False-alarm s/min | Median delay | AP |
+|---|---|---|---|---|---|---|---|
+| Random forest | 0.51 | 0.90 | 0.62 | 0.12 | 0.40 | 5.1 s | 0.66 |
+| CatBoost | 0.54 | 0.82 | 0.66 | 0.19 | 1.02 | 5.1 s | 0.67 |
+| Keras network (32-16-1) | 0.53 | 0.63 | 0.74 | 0.27 | 3.39 | 4.5 s | 0.61 |
+
+Mean over the 5 folds, then over the 5 seeds. AP = average precision, a score that does not depend on the alarm
+threshold.
+
+![Model comparison](figures/fig8_model_comparison.png)
+
+- The three models are close. The F1 differences (0.51 to 0.54) are smaller than the spread between folds
+  (0.35 to 0.78 for every model), so no model is clearly better.
+- Forest and CatBoost rank the seconds about equally well (AP 0.66 and 0.67); the network is lower (0.61). Its F1
+  comes from a different trade-off: it catches more faults but raises about 8 times more false alarms than the forest.
+- Recall on aileron, rudder and elevator faults stays between 0.12 and 0.27 for all three models. This suggests the
+  limit is the information in the features rather than the model type (not tested further).
+- Limits: 5 folds and 37 flights, fixed hyperparameters, and one fixed threshold of 0.5, which lands at a
+  different operating point for each model.
+
+Run it in an environment built from `requirements-tf.txt`: `python src/09_model_comparison.py`, then
+`python src/10_comparison_figure.py`.
 ## Repository layout
 
 - `src/` - the pipeline: `01_build_table.py`, `02_make_split.py`, `03_command_features.py`, `04_final_test.py`,
@@ -134,6 +162,7 @@ These figures are produced by `src/06_oof_predictions.py` (out-of-fold predictio
   absolute paths and are kept as a record of the investigation, not meant to run as they are.
 - `src/06_oof_predictions.py`, `src/07_health_figures.py` - out-of-fold predictions on the dev folds, and the health-check figures built from them (run 06 first; it writes `results/`, which is not committed).
 - `src/08_correlation.py` - within-flight correlation check: which signals move with the fault label, and which features duplicate each other (figures 6 and 7).
+- `src/09_model_comparison.py`, `src/10_comparison_figure.py` - random forest vs CatBoost vs a small Keras network on the dev folds, and the figure (needs the TensorFlow environment in `requirements-tf.txt`).
 - `tests/` - pytest tests for `evalkit.py` and the data split. The tests that need the data are skipped when it is not available. Run: `python -m pytest`.
 - `.github/workflows/` - GitHub Actions: runs the tests on every push.
 - `figures/` - the plots above.
