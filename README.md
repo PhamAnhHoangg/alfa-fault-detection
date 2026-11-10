@@ -185,6 +185,14 @@ Four small checks on the random forest, using scikit-learn tools. All use the de
 - **Learning curve by flights** (would more flights help?). Training on 25%, 50%, 75% and 100% of the training flights (7.6 to 29.6 flights on average) gave AP 0.61, 0.65, 0.66, 0.66 and F1 0.49, 0.51, 0.51, 0.51. The curve is flat from about 15 to 22 flights, and the rise is smaller than the spread between folds (about 0.15 in AP). This suggests the limit is the information in the features, not the number of flights. It cannot show whether more flights of the rare fault types (1 elevator flight, 3 rudder flights) would help those types.
 - **Seed stability.** The F1 changes by only 0.004 to 0.014 between random seeds, much less than the 0.35 to 0.78 spread between folds, so which flights are held out matters far more than the seed.
 
+## API demo
+
+A small FastAPI service (`src/api.py`) around one random forest trained on all dev flights (`src/18_train_final.py`: 300 trees, threshold 0.5, alarm after 3 raw alarms in a row). You send one flight to `POST /predict`: one row of 21 feature values per second, in time order. It returns each second's fault probability, raw alarm and final alarm, and the first alarm second. `GET /health` lists the model details and the 21 feature names. An optional `threshold` field overrides 0.5. FastAPI also serves a test page at `/docs`.
+
+Tried on one real dev engine-fault flight (`src/19_sample_request.py`): the probability rose from 0.13 to 0.54 in the first fault second, and the alarm followed 2 seconds later, the fastest the 3-in-a-row rule allows. That flight was part of the training data, so this only shows that the service works. It is not a performance result, and the locked test set was not used.
+
+Limits: the service takes the finished feature values, not raw sensor logs, because building those features is done by the table script and is not part of the service. The model is trained on the public ALFA data only. It is a demo: no authentication, one model, loaded from a local file. `tests/test_api.py` checks the service with a tiny model built inside the test, so it needs no data.
+
 ## Repository layout
 
 - `src/` - the pipeline: `01_build_table.py`, `02_make_split.py`, `03_command_features.py`, `04_final_test.py`,
@@ -195,7 +203,10 @@ Four small checks on the random forest, using scikit-learn tools. All use the de
 - `src/06_oof_predictions.py`, `src/07_health_figures.py` - out-of-fold predictions on the dev folds, and the health-check figures built from them (run 06 first; it writes `results/`, which is not committed).
 - `src/08_correlation.py` - within-flight correlation check: which signals move with the fault label, and which features duplicate each other (figures 6 and 7).
 - `src/09_model_comparison.py`, `src/10_comparison_figure.py` - random forest vs CatBoost vs a small Keras network on the dev folds, and the figure (needs the TensorFlow environment in `requirements-tf.txt`).
-- `tests/` - pytest tests for `evalkit.py` and the data split. The tests that need the data are skipped when it is not available. Run: `python -m pytest`.
+- `src/12_conformal_threshold.py`, `src/13_conformal_models.py` - alarm threshold chosen from the false-alarm rate on normal seconds (forest only, then all three models), with a per-fold check of the promise.
+- `src/14_dummy_baseline.py`, `15_calibration.py`, `16_permutation_importance.py`, `17_learning_curve.py` - the four self-checks on the forest.
+- `src/18_train_final.py`, `src/api.py`, `src/19_sample_request.py` - the FastAPI demo: train and save the final forest, the service, and a sample request built from one dev flight (needs `requirements-api.txt`).
+- `tests/` - pytest tests for `evalkit.py`, the data split and the API (`test_api.py` needs no data). The tests that need the data are skipped when it is not available. Run: `python -m pytest`.
 - `.github/workflows/` - GitHub Actions: runs the tests on every push.
 - `figures/` - the plots above.
 
@@ -206,6 +217,8 @@ Four small checks on the random forest, using scikit-learn tools. All use the de
 2. `pip install -r requirements.txt`
 3. Set the data folder: PowerShell `$env:ALFA_DATA = "C:\path\to\data"` (default: `data/` inside the repository).
 4. Run `src/01_build_table.py`, `02_make_split.py`, `03_command_features.py`, `04_final_test.py`, `05_figures.py` in order.
+5. Extra checks (dev folds only): run `src/06` to `src/17` in numeric order. `09` and `10` need the TensorFlow environment (`requirements-tf.txt`); `12` needs the output of `06`, and `13` to `15` need the output of `09`.
+6. API demo: `pip install -r requirements-api.txt`, `python src/18_train_final.py`, then `uvicorn api:app --app-dir src` and open `http://127.0.0.1:8000/docs` (add `--port 8011` if port 8000 is busy). `python src/19_sample_request.py` writes a sample request from one dev flight.
 
 ## Credits
 
