@@ -209,6 +209,7 @@ Limits: the service takes the finished feature values, not raw sensor logs, beca
 - `tests/` - pytest tests for `evalkit.py`, the data split and the API (`test_api.py` needs no data). The tests that need the data are skipped when it is not available. Run: `python -m pytest`.
 - `.github/workflows/` - GitHub Actions: runs the tests on every push.
 - `figures/` - the plots above.
+- `docs/` - the full documentation (project report, setup lesson, and a figure by figure explanation of every number with the formulas and code) and a code index with line numbers.
 
 ## How to run
 
