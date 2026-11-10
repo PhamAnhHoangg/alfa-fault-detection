@@ -175,6 +175,16 @@ What the numbers show:
 
 The locked test set was not used for any of this.
 
+## Self-checks on the forest
+
+Four small checks on the random forest, using scikit-learn tools. All use the dev folds only; the locked test set was not touched. Scripts: `src/14_dummy_baseline.py`, `15_calibration.py`, `16_permutation_importance.py`, `17_learning_curve.py`.
+
+- **Baseline.** A model that ignores the sensors has an average precision (AP) equal to the share of fault seconds, 0.157. The real models score 0.61 to 0.67, about 4 times chance. Random guessing with the 3-seconds-in-a-row alarm rule scores F1 0.006, which is a very weak baseline, because that rule almost never fires on random guesses. The more useful baseline is the single-feature rule A: on the locked test set its F1 was 0.46 against 0.50 for the forest.
+- **Calibration** (do scores behave like probabilities?). Brier score, lower is better, where always predicting the fault share gives 0.131: forest 0.085, CatBoost 0.089, network 0.131. The forest and CatBoost are usable as rough probabilities. The network is no better than chance on this measure. All three models were trained with class weights, so that alone does not explain it, and I did not find the reason. The conformal threshold above uses only the ranking of scores, so it is not affected.
+- **Permutation importance** (which features does the forest rely on?). `vel_lin_z__mean5` is the clear leader: shuffling it costs 0.072 AP. Every other feature costs 0.026 or less, and for most of them the spread between folds is as large as the value itself, so the order below the top is not reliable. 7 of 21 features cost less than 0.001. Shuffling the `alt_error` and `hud_altitude` features together costs 0.185 AP, against 0.052 for the two groups shuffled separately, which means these duplicated features share credit and the altitude information matters much more than any single feature suggests. Why altitude matters was not tested.
+- **Learning curve by flights** (would more flights help?). Training on 25%, 50%, 75% and 100% of the training flights (7.6 to 29.6 flights on average) gave AP 0.61, 0.65, 0.66, 0.66 and F1 0.49, 0.51, 0.51, 0.51. The curve is flat from about 15 to 22 flights, and the rise is smaller than the spread between folds (about 0.15 in AP). This suggests the limit is the information in the features, not the number of flights. It cannot show whether more flights of the rare fault types (1 elevator flight, 3 rudder flights) would help those types.
+- **Seed stability.** The F1 changes by only 0.004 to 0.014 between random seeds, much less than the 0.35 to 0.78 spread between folds, so which flights are held out matters far more than the seed.
+
 ## Repository layout
 
 - `src/` - the pipeline: `01_build_table.py`, `02_make_split.py`, `03_command_features.py`, `04_final_test.py`,
