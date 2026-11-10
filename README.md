@@ -153,6 +153,28 @@ threshold.
 
 Run it in an environment built from `requirements-tf.txt`: `python src/09_model_comparison.py`, then
 `python src/10_comparison_figure.py`.
+## Choosing the alarm threshold
+
+So far an alarm fired when the model's fault probability reached a fixed 0.5. That number is arbitrary, and the same 0.5 lands at very different operating points for different models. Instead, the threshold can be set on purpose: take the model's scores on normal seconds only, from the other four folds, and set the threshold at the top `alpha` share of those scores (`src/12_conformal_threshold.py` for the forest, `src/13_conformal_models.py` for all three models). A fold never sets its own threshold. The usual conformal correction makes this promise valid only if seconds are exchangeable, which seconds within a flight are not, so the promise is checked on the held-out fold instead of trusted.
+
+Dev folds only, mean over 5 folds and 5 seeds, alarm rule 3 seconds in a row. FA = false alarms per minute.
+
+| Model | 0.5: F1 | 0.5: FA/min | alpha 0.05: F1 | alpha 0.05: engine recall | alpha 0.05: other-fault recall | alpha 0.05: FA/min |
+|---|---|---|---|---|---|---|
+| Forest | 0.51 | 0.40 | 0.53 | 0.67 | 0.17 | 1.20 |
+| CatBoost | 0.54 | 1.02 | 0.53 | 0.66 | 0.18 | 1.09 |
+| Network (MLP) | 0.53 | 3.39 | 0.52 | 0.62 | 0.22 | 1.15 |
+
+What the numbers show:
+
+- **The promise holds on average, not per fold.** At alpha 0.05 the share of normal seconds that raised a raw alarm was 0.052 to 0.054 on average, but ranged from 0.01 to 0.13 between folds. Fold cv4 reached 0.10 to 0.13 for all three models, about 2 to 2.5 times the target. I did not find out why; flight-to-flight differences are a likely reason.
+- **At the same false-alarm level the three models are close.** The F1 gaps (0.01 to 0.02) are smaller than the spread between folds (0.35 to 0.78), so no model is declared the winner.
+- **The network's high recall at 0.5 came with many false alarms.** At 0.5 it caught 74% of engine faults but raised 3.4 false alarms a minute. At about 1.1 per minute its engine recall (0.62) is the lowest of the three, and its other-fault recall (0.22) stays the highest.
+- **At the strictest level (alpha 0.01) CatBoost was ahead**: F1 0.45 against 0.40 for the forest and 0.33 for the network. This is one setting and was not tested further.
+- **The forest's fixed 0.5 behaves like alpha 0.02**, so the original choice was reasonable.
+
+The locked test set was not used for any of this.
+
 ## Repository layout
 
 - `src/` - the pipeline: `01_build_table.py`, `02_make_split.py`, `03_command_features.py`, `04_final_test.py`,
