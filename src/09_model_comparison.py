@@ -42,7 +42,7 @@ def fit_predict(name, train, test, seed):
     if name == "catboost":
         model = CatBoostClassifier(iterations=300, depth=4, learning_rate=0.05,
                                    auto_class_weights="Balanced",
-                                   random_seed=seed, verbose=0)
+                                   random_seed=seed, verbose=0, allow_writing_files=False)
         model.fit(Xtr, ytr)
         return model.predict_proba(Xte)[:, 1]
 

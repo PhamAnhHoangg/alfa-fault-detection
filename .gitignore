@@ -7,3 +7,5 @@ __pycache__/
 results/
 
 .pytest_cache/
+
+catboost_info/
