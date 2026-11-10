@@ -1,4 +1,4 @@
-﻿"""Model comparison on the dev folds: random forest vs CatBoost vs a small Keras network.
+"""Model comparison on the dev folds: random forest vs CatBoost vs a small Keras network.
 Dev flights only. The locked test set is not used."""
 import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
@@ -69,6 +69,7 @@ def fit_predict(name, train, test, seed):
 
 
 rows = []
+saved = []
 for name in ["forest", "catboost", "mlp"]:
     t0 = time.time()
     for seed in SEEDS:
@@ -79,9 +80,15 @@ for name in ["forest", "catboost", "mlp"]:
             res = evalkit.evaluate(test, proba >= THRESHOLD, k_persist=K_PERSIST)
             res["ap"] = average_precision_score(test["label"], proba)
             res.update(model=name, seed=seed, fold=f)
+            keep = test[[c for c in ["flight", "role", "fault_type", "t", "t_rel_fault", "label"] if c in test.columns]].copy()
+            keep["proba"] = proba
+            keep["model"] = name
+            keep["seed"] = seed
+            saved.append(keep)
             rows.append(res)
     print(f"{name} finished in {time.time() - t0:.0f} s")
 
+pd.concat(saved).to_csv(os.path.join("results", "oof_models.csv"), index=False)
 out = pd.DataFrame(rows)
 os.makedirs("results", exist_ok=True)
 out.to_csv(os.path.join("results", "model_comparison.csv"), index=False)
