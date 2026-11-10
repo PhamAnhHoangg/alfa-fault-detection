@@ -9,3 +9,4 @@ results/
 .pytest_cache/
 
 catboost_info/
+models/
