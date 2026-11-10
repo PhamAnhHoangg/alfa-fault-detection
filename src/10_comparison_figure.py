@@ -19,7 +19,7 @@ for fold, row in f1.iterrows():
     ax1.text(2.08, row.values[2], fold, fontsize=7, va="center")
 for i, m in enumerate(models):
     ax1.scatter([i] * len(f1), f1[m], color=colors[m], s=45, zorder=2)
-    ax1.scatter(i + 0.17, f1[m].mean(), color="black", marker="D", s=70, zorder=3)
+    ax1.scatter(i - 0.17, f1[m].mean(), color="black", marker="D", s=70, zorder=3)
 ax1.set_xticks(range(3))
 ax1.set_xticklabels(models)
 ax1.set_xlim(-0.4, 2.4)
