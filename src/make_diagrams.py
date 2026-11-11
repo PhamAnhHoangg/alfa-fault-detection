@@ -31,7 +31,7 @@ def arrow(ax, p, q, color=INK):
 
 # ---------------------------------------------------------------- picture 1
 def time_window():
-    fault_sec, t_row = 116.3, 116
+    fault_sec, t_row = 116.166, 116
     secs = list(range(108, 121))
     fig, ax = plt.subplots(figsize=(12, 5.2))
     ax.set_xlim(107.5, 121.5)
@@ -60,13 +60,13 @@ def time_window():
 
     # fault start
     ax.plot([fault_sec, fault_sec], [-0.9, 3.6], color=RED, lw=2, ls="--")
-    ax.text(fault_sec + 0.1, 3.75, "fault starts at 116.3 s", color=RED, fontsize=10.5,
+    ax.text(fault_sec + 0.1, 3.75, "fault starts at 116.17 s", color=RED, fontsize=10.5,
             fontweight="bold", ha="left")
 
     # rule box
     ax.text(108, 3.55, "label = 1 when  t + 1 > fault_sec", fontsize=10.5, color=INK,
             fontweight="bold")
-    ax.text(108, 3.1, "t=115: 116 > 116.3 is false, so 0\nt=116: 117 > 116.3 is true, so 1",
+    ax.text(108, 3.1, "t=115: 116 > 116.17 is false, so 0\nt=116: 117 > 116.17 is true, so 1",
             fontsize=9.5, color=INK, va="top")
 
     # looks backward only

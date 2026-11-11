@@ -212,6 +212,7 @@ Step-by-step GIFs with a caption on every step (about 3 seconds each).
 ![From raw flight files to the figures](figures/gif2_pipeline.gif)
 
 - GIFs for fig1 to fig8 sit next to each figure above. They show the figure, the real rows the numbers come from, the formula, and why. Drawn by `src/make_gifs_figs.py` from the PNGs and the snippets in `docs/gif_data/` (made by `src/export_fig_data.py`).
+- [PowerPoint summary](docs/ALFA_fault_detection_presentation.pptx): 13 slides for a talk (data, pipeline, split, detectors, results, limits, next steps).
 - [Time window and label](figures/gif1_time_window.gif): one second, its 5-second window, and when the label flips.
 - [How the data is split](figures/gif3_split.gif): the 30 sessions, the five validation rounds, and the locked test part, with the real `split.csv` counts.
 - [How the Python files connect](figures/gif4_script_map.gif): which script reads and writes which file.
