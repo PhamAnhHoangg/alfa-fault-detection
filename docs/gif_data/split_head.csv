@@ -1,0 +1,15 @@
+flight,session,fault_type,fault_group,role,rows,fault_rows
+2018-07-18-15-53-31_1_engine_failure,2018-07-18-15-53-31,engine,engine,cv1,123,17
+2018-07-18-15-53-31_2_engine_failure,2018-07-18-15-53-31,engine,engine,cv1,79,16
+2018-07-18-16-22-01_engine_failure_with_emr_traj,2018-07-18-16-22-01,engine,engine,cv4,123,17
+2018-07-18-16-37-39_1_no_failure,2018-07-18-16-37-39,none,none,test,21,0
+2018-07-18-16-37-39_2_engine_failure_with_emr_traj,2018-07-18-16-37-39,engine,engine,test,120,17
+2018-07-30-16-29-45_engine_failure_with_emr_traj,2018-07-30-16-29-45,engine,engine,cv1,132,20
+2018-07-30-16-39-00_1_engine_failure,2018-07-30-16-39-00,engine,engine,cv4,122,16
+2018-07-30-16-39-00_2_engine_failure,2018-07-30-16-39-00,engine,engine,cv4,96,15
+2018-07-30-16-39-00_3_no_failure,2018-07-30-16-39-00,none,none,cv4,69,0
+2018-07-30-17-10-45_engine_failure_with_emr_traj,2018-07-30-17-10-45,engine,engine,cv1,123,17
+2018-07-30-17-20-01_engine_failure_with_emr_traj,2018-07-30-17-20-01,engine,engine,cv2,97,20
+2018-07-30-17-36-35_engine_failure_with_emr_traj,2018-07-30-17-36-35,engine,engine,cv1,147,24
+2018-07-30-17-46-31_engine_failure_with_emr_traj,2018-07-30-17-46-31,engine,engine,cv2,103,23
+2018-09-11-11-56-30_engine_failure,2018-09-11-11-56-30,engine,engine,test,115,22
