@@ -59,6 +59,10 @@ These are the ideas that cost the most time when learning this project. They are
 
 ### Data and pipeline
 
+| Step by step | Static picture |
+|---|---|
+| ![Pipeline (GIF)](../figures/gif2_pipeline.gif) | ![Pipeline](../figures/diagram2_pipeline.png) |
+
 ALFA is a set of fixed-wing flights from Carnegie Mellon University in which faults were injected on purpose. Each flight has a logged fault start time, so every second can be labeled as before or after the fault began.
 
 Script 01_build_table.py turns the raw logs into one table with one row per second per flight. It puts the IMU time onto a 1 second grid, averages the readings inside each second, and fills short gaps (up to 5 seconds) forward. For each of 10 signals it then computes three features: the mean of the last 5 seconds, the standard deviation of the last 5 seconds, and the change over the last 10 seconds. All three use only past data, so a feature at second t never sees the future. That gives 30 columns, and the models use the 21 that come from sensors.
@@ -76,6 +80,10 @@ evalkit.load(cap=30) also drops every row more than 30 seconds after the fault b
 | 03_command_features.py | Builds the command-channel features for detector D2: channels 1, 3, 4 and 5 count as frozen when the value does not change for 3 seconds in a row |
 
 ### Evaluation design
+
+| Step by step | Static picture |
+|---|---|
+| ![Data split (GIF)](../figures/gif3_split.gif) | ![Data split](../figures/diagram3_split.png) |
 
 The split is by session, not by row or by flight. Seconds from one flight look very alike, and flights from one session share conditions, so splitting at a finer level would let the model see near copies of its test data. The 30 sessions are assigned by hand in the ASSIGN dictionary in 02_make_split.py, and the script stops if any session lands in two groups.
 
@@ -331,6 +339,12 @@ The label means the fault starts before the end of second t. If phi = 116.3, sec
 
 ### From a raw flight to one table row
 
+| Step by step | Static picture |
+|---|---|
+| ![Time window and label (GIF)](../figures/gif1_time_window.gif) | ![Time window and label](../figures/diagram1_time_window.png) |
+
+The numbers of a real flight, step by step: [GIF 5](../figures/gif5_numbers.gif).
+
 Script 01_build_table.py reads each flight folder under data\alfa\processed\processed. Every file is named like carbonZ_<timestamp>*<n>*<fault words>-<topic>.csv.
 
 #### The ten signals and where each comes from
@@ -423,7 +437,9 @@ Each figure below has the picture first, then the formula for the numbers on it,
 
 #### Fig1: one engine flight and three detectors
 
-![Figure 1](../figures/fig1_engine_flight.png)
+| Step by step | Final figure |
+|---|---|
+| ![Figure 1 (GIF)](../figures/gif_fig1.gif) | ![Figure 1](../figures/fig1_engine_flight.png) |
 
 **Formula**
 
@@ -458,7 +474,9 @@ def persist(d, pred, k):
 
 #### Fig2: raw command channels around the fault
 
-![Figure 2](../figures/fig2_frozen_channels.png)
+| Step by step | Final figure |
+|---|---|
+| ![Figure 2 (GIF)](../figures/gif_fig2.gif) | ![Figure 2](../figures/fig2_frozen_channels.png) |
 
 **Formula**
 
@@ -482,7 +500,9 @@ ax.plot(d["rel"], d[f"field.channels{ch}"])        # ch = 3, 4, 5
 
 #### Fig3: recall by fault type
 
-![Figure 3](../figures/fig3_recall_by_type.png)
+| Step by step | Final figure |
+|---|---|
+| ![Figure 3 (GIF)](../figures/gif_fig3.gif) | ![Figure 3](../figures/fig3_recall_by_type.png) |
 
 **Formula**
 
@@ -505,7 +525,9 @@ for t in types:
 
 #### Fig4: confusion matrix
 
-![Figure 4](../figures/fig4_confusion_matrix.png)
+| Step by step | Final figure |
+|---|---|
+| ![Figure 4 (GIF)](../figures/gif_fig4.gif) | ![Figure 4](../figures/fig4_confusion_matrix.png) |
 
 **Formula**
 
@@ -523,7 +545,9 @@ ConfusionMatrixDisplay.from_predictions(
 
 #### Fig5: alarm timeline per fault flight
 
-![Figure 5](../figures/fig5_alarm_timeline.png)
+| Step by step | Final figure |
+|---|---|
+| ![Figure 5 (GIF)](../figures/gif_fig5.gif) | ![Figure 5](../figures/fig5_alarm_timeline.png) |
 
 **Formula**
 
@@ -545,7 +569,9 @@ ax.axvline(0, color="black")
 
 #### Fig6: which features duplicate each other
 
-![Figure 6](../figures/fig6_feature_correlation.png)
+| Step by step | Final figure |
+|---|---|
+| ![Figure 6 (GIF)](../figures/gif_fig6.gif) | ![Figure 6](../figures/fig6_feature_correlation.png) |
 
 **Formula**
 
@@ -565,7 +591,9 @@ im = ax.imshow(cm.to_numpy(), cmap="coolwarm", vmin=-1, vmax=1)
 
 #### Fig7: which features move with the fault
 
-![Figure 7](../figures/fig7_label_correlation.png)
+| Step by step | Final figure |
+|---|---|
+| ![Figure 7 (GIF)](../figures/gif6_fig7_cell.gif) | ![Figure 7](../figures/fig7_label_correlation.png) |
 
 **Formula**
 
@@ -643,7 +671,9 @@ r = sxy / np.sqrt(sxx * syy)                # 0.65
 
 #### Fig8: model comparison
 
-![Figure 8](../figures/fig8_model_comparison.png)
+| Step by step | Final figure |
+|---|---|
+| ![Figure 8 (GIF)](../figures/gif_fig8.gif) | ![Figure 8](../figures/fig8_model_comparison.png) |
 
 **Formula**
 

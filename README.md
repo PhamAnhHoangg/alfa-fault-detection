@@ -76,8 +76,12 @@ the one-label rule could not express two faults.
 2. Because the injection is visible in the commands, a detector that reads them is not a physical detector. Separating
    "sensor-side" from "command-side" detectors is the main contribution of this project.
 
-![Engine fault, test flight](figures/fig1_engine_flight.png)
-![Frozen command channels, dual-fault test flight](figures/fig2_frozen_channels.png)
+| Step by step | Final figure |
+|---|---|
+| ![Engine fault, test flight (GIF)](figures/gif_fig1.gif) | ![Engine fault, test flight](figures/fig1_engine_flight.png) |
+| Step by step | Final figure |
+|---|---|
+| ![Frozen command channels, dual-fault test flight (GIF)](figures/gif_fig2.gif) | ![Frozen command channels, dual-fault test flight](figures/fig2_frozen_channels.png) |
 
 ## Limitations
 
@@ -111,15 +115,21 @@ Leave-one-day-out F1: 0.77, 0.77, 0.04, 0.50, 0.62. The day with AP 0.27 (2018-0
 
 ### Figures
 
-![Recall by fault type](figures/fig3_recall_by_type.png)
+| Step by step | Final figure |
+|---|---|
+| ![Recall by fault type (GIF)](figures/gif_fig3.gif) | ![Recall by fault type](figures/fig3_recall_by_type.png) |
 
 Recall by fault type on the dev folds. The forest finds most engine-fault seconds but very few aileron, rudder or elevator ones. The 3-in-a-row alarm rule removes false alarms but costs recall (rudder 0.18 to 0.02). Elevator has only 13 fault seconds and rudder 44, so those bars are noisy.
 
-![Alarms per dev flight](figures/fig5_alarm_timeline.png)
+| Step by step | Final figure |
+|---|---|
+| ![Alarms per dev flight (GIF)](figures/gif_fig5.gif) | ![Alarms per dev flight](figures/fig5_alarm_timeline.png) |
 
 Each row is one dev flight, aligned at the fault start. Every engine flight raised an alarm after the fault, roughly 3 to 7 seconds later in most flights. Most aileron and rudder flights raised none, and a few alarms fire before the fault (false alarms).
 
-![Confusion matrix](figures/fig4_confusion_matrix.png)
+| Step by step | Final figure |
+|---|---|
+| ![Confusion matrix (GIF)](figures/gif_fig4.gif) | ![Confusion matrix](figures/fig4_confusion_matrix.png) |
 
 Confusion matrix of the 3-in-a-row alarm, as a share of each actual class: 99% of normal seconds stay quiet (1% false alarms) and 38% of fault seconds are detected.
 
@@ -140,7 +150,9 @@ fixed in advance and not tuned. The locked test set was not used.
 Mean over the 5 folds, then over the 5 seeds. AP = average precision, a score that does not depend on the alarm
 threshold.
 
-![Model comparison](figures/fig8_model_comparison.png)
+| Step by step | Final figure |
+|---|---|
+| ![Model comparison (GIF)](figures/gif_fig8.gif) | ![Model comparison](figures/fig8_model_comparison.png) |
 
 - The three models are close. The F1 differences (0.51 to 0.54) are smaller than the spread between folds
   (0.35 to 0.78 for every model), so no model is clearly better.
@@ -199,6 +211,7 @@ Step-by-step GIFs with a caption on every step (about 3 seconds each).
 
 ![From raw flight files to the figures](figures/gif2_pipeline.gif)
 
+- GIFs for fig1 to fig8 sit next to each figure above. They are drawn by `src/make_gifs_figs.py` from the PNG files.
 - [Time window and label](figures/gif1_time_window.gif): one second, its 5-second window, and when the label flips.
 - [How the data is split](figures/gif3_split.gif): the 30 sessions, the five validation rounds, and the locked test part, with the real `split.csv` counts.
 - [How the Python files connect](figures/gif4_script_map.gif): which script reads and writes which file.
@@ -224,7 +237,7 @@ What is done and what is planned next: [docs/ROADMAP.md](docs/ROADMAP.md).
 - `tests/` - pytest tests for `evalkit.py`, the data split and the API (`test_api.py` needs no data). The tests that need the data are skipped when it is not available. Run: `python -m pytest`.
 - `.github/workflows/` - GitHub Actions: runs the tests on every push.
 - `figures/` - the plots above, plus the explanation diagrams and GIFs.
-- `src/make_diagrams.py`, `src/make_gifs.py`, `src/make_gifs_data.py`, `src/export_gif_data.py` - draw the diagrams and GIFs. The last two use the small data snippets in `docs/gif_data/` (a few public ALFA rows, made by `export_gif_data.py`).
+- `src/make_diagrams.py`, `src/make_gifs.py`, `src/make_gifs_figs.py`, `src/make_gifs_data.py`, `src/export_gif_data.py` - draw the diagrams and GIFs. The last two use the small data snippets in `docs/gif_data/` (a few public ALFA rows, made by `export_gif_data.py`).
 - `docs/` - the full documentation (project report, setup lesson, and a figure by figure explanation of every number with the formulas and code) a code index with line numbers, and the roadmap.
 
 ## How to run

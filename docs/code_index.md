@@ -4,6 +4,10 @@ Line numbers refer to the repository at the commit that added this file. If a sc
 
 ## Run order and what each script reads and writes
 
+| Step by step | Static picture |
+|---|---|
+| ![How the Python files connect (GIF)](../figures/gif4_script_map.gif) | ![How the Python files connect](../figures/diagram4_script_map.png) |
+
 | Step | Script | Reads | Writes |
 |---|---|---|---|
 | 1 | `src/01_build_table.py` | raw flights in `alfa/processed/processed` | `table.csv` |
