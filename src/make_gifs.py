@@ -191,22 +191,31 @@ def render_scene(title, items, caps, size, dpi, xlim, ylim, name):
 
 
 # ================================================================== GIF 1
-FAULT = 116.3
-SECS = list(range(108, 121))
+# Real flight: 2018-07-18-15-53-31_1_engine_failure (dev part). Numbers come from
+# docs/gif_data/per_second_example.csv (made by src/export_gif_data.py).
+import pandas as pd
+
+_PS = pd.read_csv(Path(__file__).resolve().parent.parent / "docs" / "gif_data" / "per_second_example.csv").set_index("t")
+FAULT = float(pd.read_csv(Path(__file__).resolve().parent.parent / "docs" / "gif_data" / "example_info.csv")["fault_sec"][0])
+XV = _PS["alt_error_mean"].to_dict()
+M5 = _PS["mean5"].to_dict()
+SECS = list(range(108, 120))
+FS = f"{FAULT:.2f}"
 TW = [
-    dict(cap="One box is one second of the flight.\nRow t covers the time from t to t + 1 seconds."),
-    dict(cap="The fault starts at 116.3 s.\nThat moment is inside second 116 (from 116 to 117).",
+    dict(cap="One box is one second of a real engine-fault flight (ALFA, dev part).\nThe number in the box is the average altitude error x of that second."),
+    dict(cap=f"The fault starts at {FS} s.\nThat moment is inside second 116 (from 116 to 117).",
          fault=True, hi=116),
     dict(cap="The label rule: label = 1 when  t + 1 > fault_sec.\nIn words: the second ends after the fault started.",
          fault=True, rule=True),
-    dict(cap="t = 115:  116 > 116.3 is false, so the label is 0.",
+    dict(cap=f"t = 115:  116 > {FS} is false, so the label is 0.",
          fault=True, rule=True, labels=range(108, 116), hi=115),
-    dict(cap="t = 116:  117 > 116.3 is true, so the label is 1.\nThis is the first 1, and it is the second that contains the fault start.",
+    dict(cap=f"t = 116:  117 > {FS} is true, so the label is 1.\nThis is the first 1, and it is the second that contains the fault start.",
          fault=True, rule=True, labels=range(108, 117), hi=116),
     dict(cap="Every later second is also 1.", fault=True, rule=True, labels=SECS),
-    dict(cap="Features look backward.\nmean5 for row 116 is the average of seconds 112 to 116.",
+    dict(cap=f"Features look backward. mean5 for row 116 is the average of x for seconds 112 to 116:\n"
+             f"({XV[112]:.2f} {XV[113]:.2f} {XV[114]:.2f} {XV[115]:.2f} {XV[116]:.2f}) / 5 = {M5[116]:.3f}",
          fault=True, rule=True, labels=SECS, row=116),
-    dict(cap="Row 117 gets its own window: seconds 113 to 117.\nThe window slides one second at a time.",
+    dict(cap=f"Row 117 gets its own window: seconds 113 to 117, mean5 = {M5[117]:.3f}.\nThe window slides one second at a time.",
          fault=True, rule=True, labels=SECS, row=117),
     dict(cap="Back to row 116. Seconds after t are never used,\nso a row cannot see the future.",
          fault=True, rule=True, labels=SECS, row=116, future=True),
@@ -234,16 +243,19 @@ def draw_tw(i, win_x=None, row_hi=None):
         if row is not None and t == row:
             ec, lw = "#7c3aed", 3.5
         ax.add_patch(Rectangle((t, 0), 1, 1, fc=fc, ec=ec, lw=lw, zorder=2))
-        ax.text(t + 0.5, 0.5, f"t={t}", ha="center", va="center", fontsize=9, zorder=3)
+        ax.text(t + 0.5, 0.7, f"t={t}", ha="center", va="center", fontsize=9, zorder=3)
+        ax.text(t + 0.5, 0.3, f"{XV[t]:.2f}", ha="center", va="center", fontsize=8.5,
+                color="#1e3a8a", zorder=3)
         if t in labels:
             ax.text(t + 0.5, -0.5, str(lab), ha="center", va="center", fontsize=14,
                     fontweight="bold", color="#dc2626" if lab else "#16a34a")
-    ax.text(106.9, 0.5, "row", ha="right", va="center", fontsize=10, color=GREY)
+    ax.text(106.9, 0.7, "row", ha="right", va="center", fontsize=10, color=GREY)
+    ax.text(106.9, 0.3, "x", ha="right", va="center", fontsize=10, color="#1e3a8a")
     if labels:
         ax.text(106.9, -0.5, "label", ha="right", va="center", fontsize=10, color=GREY)
     if st.get("fault"):
         ax.plot([FAULT, FAULT], [-0.95, 3.2], color="#dc2626", lw=2.2, ls="--", zorder=4)
-        ax.text(FAULT + 0.1, 3.3, "fault starts at 116.3 s", color="#dc2626", fontsize=11,
+        ax.text(FAULT + 0.1, 3.3, f"fault starts at {FS} s", color="#dc2626", fontsize=11,
                 fontweight="bold")
     if st.get("rule"):
         ax.text(107, 3.5, "label = 1 when  t + 1 > fault_sec", fontsize=11, color="#7c3aed",
@@ -254,9 +266,9 @@ def draw_tw(i, win_x=None, row_hi=None):
         ax.text(x0 + 2.5, 1.5, f"mean5 window: seconds {round(x0)} to {round(x0) + 4}",
                 ha="center", va="center", fontsize=9.5, color="#5b21b6", zorder=3)
     if st.get("future") and row is not None:
-        ax.add_patch(Rectangle((row + 1, 0), 121 - (row + 1), 1, fc="#d1d5db", ec="none",
+        ax.add_patch(Rectangle((row + 1, 0), 120 - (row + 1), 1, fc="#d1d5db", ec="none",
                                alpha=0.8, hatch="///", zorder=5))
-        ax.text((row + 1 + 121) / 2, 1.5, "never used by row 116", ha="center", fontsize=10.5,
+        ax.text((row + 1 + 120) / 2, 1.5, "never used by row 116", ha="center", fontsize=10.5,
                 color=GREY, fontweight="bold")
     return to_image(fig)
 
