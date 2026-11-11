@@ -1,0 +1,5 @@
+fault_type,fault_seconds,raw_hits,alarm_hits,raw_recall,alarm_recall
+engine,301,225,185,0.7475,0.6146
+elevator,13,4,2,0.3077,0.1538
+aileron,150,11,6,0.0733,0.04
+rudder,44,8,1,0.1818,0.0227

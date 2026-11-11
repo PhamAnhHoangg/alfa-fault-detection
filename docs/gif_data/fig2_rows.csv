@@ -1,0 +1,9 @@
+flight,t,t_rel_fault,label,cmd_frozen_any
+2018-09-11-17-27-13_1_rudder_zero__left_aileron_failure,114,-2.142,0,0.0
+2018-09-11-17-27-13_1_rudder_zero__left_aileron_failure,115,-1.142,0,0.0
+2018-09-11-17-27-13_1_rudder_zero__left_aileron_failure,116,-0.142,1,0.0
+2018-09-11-17-27-13_1_rudder_zero__left_aileron_failure,117,0.858,1,0.0
+2018-09-11-17-27-13_1_rudder_zero__left_aileron_failure,118,1.858,1,1.0
+2018-09-11-17-27-13_1_rudder_zero__left_aileron_failure,119,2.858,1,1.0
+2018-09-11-17-27-13_1_rudder_zero__left_aileron_failure,120,3.858,1,1.0
+2018-09-11-17-27-13_1_rudder_zero__left_aileron_failure,121,4.858,1,1.0

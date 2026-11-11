@@ -1,0 +1,6 @@
+model,fold,seed,f1,rec_eng,fa_s_per_min
+forest,cv0,0,0.411,0.733,0.0
+forest,cv0,1,0.411,0.733,0.0
+forest,cv0,2,0.44,0.733,0.0
+forest,cv0,3,0.411,0.733,0.0
+forest,cv0,4,0.411,0.733,0.0
