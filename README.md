@@ -193,6 +193,21 @@ Tried on one real dev engine-fault flight (`src/19_sample_request.py`): the prob
 
 Limits: the service takes the finished feature values, not raw sensor logs, because building those features is done by the table script and is not part of the service. The model is trained on the public ALFA data only. It is a demo: no authentication, one model, loaded from a local file. `tests/test_api.py` checks the service with a tiny model built inside the test, so it needs no data.
 
+## Visual guide
+
+Step-by-step GIFs with a caption on every step (about 3 seconds each).
+
+![From raw flight files to the figures](figures/gif2_pipeline.gif)
+
+- [Time window and label](figures/gif1_time_window.gif): one second, its 5-second window, and when the label flips.
+- [How the data is split](figures/gif3_split.gif): the 30 sessions, the five validation rounds, and the locked test part, with the real `split.csv` counts.
+- [How the Python files connect](figures/gif4_script_map.gif): which script reads and writes which file.
+- [Where the numbers come from](figures/gif5_numbers.gif): real rows of one engine-fault flight, from the raw readings to `mean5`, `std5`, `delta10` and the label.
+- [Where r = 0.65 comes from](figures/gif6_fig7_cell.gif): the engine cell of fig7 worked out from real rows.
+- [Video of the last two](figures/walkthrough_numbers.mp4)
+
+What is done and what is planned next: [docs/ROADMAP.md](docs/ROADMAP.md).
+
 ## Repository layout
 
 - `src/` - the pipeline: `01_build_table.py`, `02_make_split.py`, `03_command_features.py`, `04_final_test.py`,
@@ -208,8 +223,9 @@ Limits: the service takes the finished feature values, not raw sensor logs, beca
 - `src/18_train_final.py`, `src/api.py`, `src/19_sample_request.py` - the FastAPI demo: train and save the final forest, the service, and a sample request built from one dev flight (needs `requirements-api.txt`).
 - `tests/` - pytest tests for `evalkit.py`, the data split and the API (`test_api.py` needs no data). The tests that need the data are skipped when it is not available. Run: `python -m pytest`.
 - `.github/workflows/` - GitHub Actions: runs the tests on every push.
-- `figures/` - the plots above.
-- `docs/` - the full documentation (project report, setup lesson, and a figure by figure explanation of every number with the formulas and code) and a code index with line numbers.
+- `figures/` - the plots above, plus the explanation diagrams and GIFs.
+- `src/make_diagrams.py`, `src/make_gifs.py`, `src/make_gifs_data.py`, `src/export_gif_data.py` - draw the diagrams and GIFs. The last two use the small data snippets in `docs/gif_data/` (a few public ALFA rows, made by `export_gif_data.py`).
+- `docs/` - the full documentation (project report, setup lesson, and a figure by figure explanation of every number with the formulas and code) a code index with line numbers, and the roadmap.
 
 ## How to run
 
