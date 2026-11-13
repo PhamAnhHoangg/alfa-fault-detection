@@ -16,6 +16,15 @@ project documents a data leak that makes the task look much easier than it is.
   A frozen channel *is* the injection. This detector is therefore a ceiling that shows how easy the task becomes when
   the injection is visible, not a detector that would work on a real aircraft. The sensor-only result is the honest one.
 
+## How to read this repo
+
+1. [Summary](#summary) and [Results](#results) give the main finding in two minutes.
+2. [Limitations](#limitations) says what the numbers do not show.
+3. [Visual guide](#visual-guide) walks through the figures as GIFs.
+4. [docs/ALFA_fault_detection_documentation.md](docs/ALFA_fault_detection_documentation.md) explains every step, number and formula.
+5. [docs/code_index.md](docs/code_index.md) points from each idea to the script and line numbers that compute it.
+6. [How to run](#how-to-run) reproduces everything from the raw data.
+
 ## Data
 
 [ALFA: A dataset for UAV fault and anomaly detection](https://doi.org/10.1184/R1/12707963) (CMU AirLab, CC BY 4.0).
@@ -250,6 +259,15 @@ What is done and what is planned next: [docs/ROADMAP.md](docs/ROADMAP.md).
 4. Run `src/01_build_table.py`, `02_make_split.py`, `03_command_features.py`, `04_final_test.py`, `05_figures.py` in order.
 5. Extra checks (dev folds only): run `src/06` to `src/17` in numeric order. `09` and `10` need the TensorFlow environment (`requirements-tf.txt`); `12` needs the output of `06`, and `13` to `15` need the output of `09`.
 6. API demo: `pip install -r requirements-api.txt`, `python src/18_train_final.py`, then `uvicorn api:app --app-dir src` and open `http://127.0.0.1:8000/docs` (add `--port 8011` if port 8000 is busy). `python src/19_sample_request.py` writes a sample request from one dev flight.
+
+## Related work
+
+- **The ALFA dataset.** A. Keipour, M. Mousaei and S. Scherer, "ALFA: A dataset for UAV fault and anomaly detection", The International Journal of Robotics Research 40(2-3), 515-520, 2021. [doi:10.1177/0278364920966642](https://doi.org/10.1177/0278364920966642), [arXiv:1907.06268](https://arxiv.org/abs/1907.06268). Real fixed-wing flights with engine and control-surface faults and ground-truth fault times. All data in this project comes from it.
+- **Earlier work by the same authors.** A. Keipour, M. Mousaei and S. Scherer, "Automatic Real-time Anomaly Detection for Autonomous Aerial Vehicles", ICRA 2019, 5679-5685. [doi:10.1109/ICRA.2019.8794286](https://doi.org/10.1109/ICRA.2019.8794286). An online recursive least squares model of related input-output pairs, tested on a 22-flight part of the data.
+- **Loading tools.** [castacks/alfa-dataset-tools](https://github.com/castacks/alfa-dataset-tools), the official helper tools for the dataset.
+- **DronLomaly.** L. K. Shar et al., "DronLomaly: Runtime detection of anomalous drone behaviors via log analysis and deep learning", APSEC 2022, 119-128. An LSTM trained only on normal flight logs that flags log entries it did not expect, tested on DJI, ArduPilot and PX4 logs.
+
+Numbers reported in these papers use other data subsets and other metrics, so they are not compared with the results here.
 
 ## Credits
 

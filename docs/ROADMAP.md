@@ -21,9 +21,9 @@ No company data goes into this project.
 6. Fix the pipeline-map widget (fig8 reads `model_comparison.csv`, and the right panel shows engine-fault recall) and animation steps 5 and 6 (pooling happens after per-flight demeaning).
 
 ### B. README
-7. "Results at a glance" table at the top.
-8. "How to read this repo" section pointing to the contents list.
-9. "Related work" section citing the ALFA paper (Keipour, Mousaei, Scherer, IJRR 2021, arXiv 1907.06268) and DronLomaly (LSTM log anomaly detection).
+7. Done: the README Summary and Results table already cover it.
+8. Done: "How to read this repo" section added under the Summary.
+9. Done: "Related work" section added to the README (ALFA paper, ICRA 2019 paper, alfa-dataset-tools, DronLomaly).
 10. Licence: undecided.
 
 ### C. Documentation
