@@ -4,7 +4,7 @@ For each fold, the threshold is the (1 - alpha) quantile of the scores of NORMAL
 OTHER folds, with the usual conformal correction. The fold being scored never sets its own
 threshold. Then we check on that fold whether the promised false-alarm rate really holds."""
 import math
-import os, config
+import os
 import numpy as np
 import pandas as pd
 import evalkit
@@ -12,7 +12,7 @@ import evalkit
 ALPHAS = [0.05, 0.02, 0.01]
 K_PERSIST = 3
 
-oof = pd.read_csv(os.path.join(config.PROJECT, "results", "oof_predictions.csv"))
+oof = pd.read_csv(os.path.join("results", "oof_predictions.csv"))
 folds = sorted(oof["role"].unique())
 print("folds:", folds, "| rows:", len(oof), "| normal seconds:", int((oof["label"] == 0).sum()))
 
@@ -38,8 +38,8 @@ for f in folds:
         rows.append(res)
 
 out = pd.DataFrame(rows)
-os.makedirs(config.PROJECT / "results", exist_ok=True)
-out.to_csv(os.path.join(config.PROJECT, "results", "conformal_threshold.csv"), index=False)
+os.makedirs("results", exist_ok=True)
+out.to_csv(os.path.join("results", "conformal_threshold.csv"), index=False)
 
 order = ["fixed 0.5"] + [f"alpha={a}" for a in ALPHAS]
 metrics = ["threshold", "raw_fa_rate", "f1", "prec", "rec_eng", "rec_oth", "fa_s_per_min", "med_delay_s"]

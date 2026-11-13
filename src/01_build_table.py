@@ -4,7 +4,7 @@ import re
 import numpy as np
 import pandas as pd
 
-ROOT = config.DATA / "alfa" / "processed" / "processed"
+ROOT = Path(str(config.DATA / r"alfa\processed\processed"))
 OUT = Path(str(config.DATA / r"table.csv"))
 flights = sorted(p for p in ROOT.iterdir() if p.is_dir())
 

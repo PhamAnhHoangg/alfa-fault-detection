@@ -173,6 +173,7 @@ These are the errors we hit and what each one changed. Most were small, but seve
 | pytest first collected 0 tests, and the wrong Python (anaconda) was used at one point | Set pytest to find src, and run everything from the project's own virtual environment |
 | A fixed threshold of 0.5 seemed arbitrary, and a promised false-alarm rate was tested only on average | Report the conformal threshold per fold too. It held on average but not in cv4 |
 | Model rankings looked decisive on one run | Use 5 seeds and fold spread. The spread is larger than the gap between models, so no winner is declared |
+| Claude described both flights of an overlapping session pair as elevator faults without reading the folder names. The cv3 flight was a no-failure flight. AI fixes can chain into new errors when each step builds on an unchecked claim. The same day, a blanket undo of path changes also broke lines in 05_figures.py that had not been changed, and it was caught only by reading the diff | Check every claim against the code or the data before the next change, change only what is actually wrong, and read the full diff before applying it |
 
 ### Libraries and versions
 
@@ -218,7 +219,7 @@ Two rules apply to every addition. No company data of any kind goes into the pro
 - fig9_calibration.png exists locally but has not been committed or checked for readability yet.
 - The 10 signals were chosen in the early experiments (step6_effect.py, step7_effect2.py, step8_placebo.py), which looped over every flight folder before the split existed. So the 9 test flights were visible when the signals were picked. The models and thresholds were still fitted on dev flights only, but the feature choice was not blind to the test set.
 - The test rows are read again after 04_final_test.py: 05_figures.py refits on dev and predicts on test to draw fig1, step23_rudder_check.py looks at test fault rows, and export_fig_data.py exports test rows for the GIFs. Nothing was tuned from these looks, but "scored once" means the reported numbers come from 04 only.
-- Some sessions start seconds apart, for example 2018-09-11-14-41-38 (cv3) and 2018-09-11-14-41-51 (test). If they are parts of one recording, the session split would leak. Their time ranges have not been compared yet.
+- Some sessions overlap in time (src/20_session_overlap.py finds 6). The only one that touches the test set is 2018-09-11-14-41-51 (test, elevator) and 2018-09-11-14-41-38 (cv3, no failure). They share no timestamps and overlap by about 6 seconds at the edge, so no rows are copied, but they come from the same time in the air. The 2018-10-05 pair and the 2018-10-18 group overlap by up to 9 minutes across dev folds and have not been checked yet.
 
 ### Credits
 

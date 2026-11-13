@@ -8,7 +8,7 @@ No company data goes into this project.
 - Merged documentation (`docs/ALFA_fault_detection_documentation.md`), pushed.
 - Code index with script, function and line numbers (`docs/code_index.md`), pushed.
 - Pictures 1 to 4 drawn (picture 4 is the script map, `diagram4_script_map.png`) and GIF 1 (time window, `gif1_time_window.gif`): time window, pipeline, split (`figures/diagram1_time_window.png`, `diagram2_pipeline.png`, `diagram3_split.png`, script `src/make_diagrams.py`). Pushed.
-- Code review fixes (2026-11-13): pytest.ini saved without BOM so pytest starts, 09 creates `results/` before writing, 02 stops if a session lands in two groups, data paths no longer use backslashes, result and figure paths use `config.PROJECT`, 17 stops instead of crashing when no subset has both classes, fixed titles removed from fig2 and fig8, uvicorn command in the docs gets `--app-dir src`, neutral setup paths in the docs, three new lines under "Limits and open questions".
+- Code review fixes (2026-11-13): pytest.ini saved without BOM so pytest starts, 09 creates `results/` before writing, 02 stops if a session lands in two groups, fixed titles removed from fig2 and fig8, uvicorn command in the docs gets `--app-dir src`, neutral setup paths in the docs, three new lines under "Limits and open questions".
 
 ## Queue: next steps
 
@@ -47,7 +47,7 @@ No company data goes into this project.
 24. Re-check the wording of key point 2 ("never after").
 25. Done: the fig2 title now uses only the flight name. Regenerate fig2 and fig8 on the PC.
 26. Done.
-31. Check whether sessions that start seconds apart (for example 2018-09-11-14-41-38 in cv3 and 2018-09-11-14-41-51 in test) overlap in time. Needs the data. Script: `src/20_session_overlap.py`.
+31. Check whether sessions that start seconds apart (for example 2018-09-11-14-41-38 in cv3 and 2018-09-11-14-41-51 in test) overlap in time. Script: `src/20_session_overlap.py`. Result on 2026-11-13: 6 overlaps. The test pair (14-41-51 test, 14-41-38 cv3) shares no timestamps and overlaps about 6 s at the edge; 14-41-38 is a no-failure flight. Still to check: 2018-10-05 pair and the 2018-10-18 group (dev only).
 32. Decide whether to redo the signal screening (step6 to step8) on dev flights only.
 
 ## Later: bigger projects

@@ -1,7 +1,7 @@
 ﻿"""Write a sample /predict request from one dev engine-fault flight (demo only).
 The flight was in the final forest's training data, so this is not a performance test."""
 import json
-import os, config
+import os
 import numpy as np
 import evalkit
 
@@ -19,8 +19,8 @@ payload = {
     "onset_second": onset,
     "rows": [{c: float(v) for c, v in zip(cols, row)} for row in d[cols].to_numpy(float)],
 }
-os.makedirs(config.PROJECT / "results", exist_ok=True)
-with open(os.path.join(config.PROJECT, "results", "sample_request.json"), "w") as fh:
+os.makedirs("results", exist_ok=True)
+with open(os.path.join("results", "sample_request.json"), "w") as fh:
     json.dump(payload, fh)
 print("flight:", flight, "| seconds:", len(d), "| fault starts at second index:", onset,
       "| fault seconds:", int((d["label"] == 1).sum()))

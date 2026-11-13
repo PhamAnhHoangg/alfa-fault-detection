@@ -3,7 +3,7 @@
 'prior' always outputs the fault rate of the training folds -> its average precision equals the
 share of fault seconds in the test fold (the chance level).
 'stratified' guesses fault / normal at random with the training fault rate, 20 random draws."""
-import os, config
+import os
 import numpy as np
 import pandas as pd
 import evalkit
@@ -13,7 +13,7 @@ from sklearn.metrics import average_precision_score
 K_PERSIST = 3
 N_DRAWS = 20
 
-oof = pd.read_csv(os.path.join(config.PROJECT, "results", "oof_models.csv"))
+oof = pd.read_csv(os.path.join("results", "oof_models.csv"))
 rows_src = oof[(oof["model"] == "forest") & (oof["seed"] == 0)]   # row identity only, features unused
 folds = sorted(rows_src["role"].unique())
 
@@ -47,5 +47,5 @@ cols = ["f1", "prec", "rec_eng", "rec_oth", "fa_s_per_min"]
 print(strat[cols].mean().round(3).to_string())
 
 print("\nSame measures for the real models (fixed 0.5, from the model comparison):")
-mc = pd.read_csv(os.path.join(config.PROJECT, "results", "model_comparison.csv"))
+mc = pd.read_csv(os.path.join("results", "model_comparison.csv"))
 print(mc.groupby("model")[cols + ["ap"]].mean().round(3).to_string())

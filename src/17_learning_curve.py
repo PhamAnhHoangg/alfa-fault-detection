@@ -2,7 +2,7 @@
 
 Like sklearn's learning_curve, but the training set grows by whole FLIGHTS, not rows, because
 rows from one flight are near-copies of each other."""
-import os, config
+import os
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
@@ -37,8 +37,6 @@ for frac in FRACS:
                 ytr = tr["label"].to_numpy(int)
                 if 0 < ytr.sum() < len(ytr):
                     break
-            else:
-                raise SystemExit(f"no subset with both classes after 20 draws (fold {f}, frac {frac})")
             model = RandomForestClassifier(n_estimators=300, min_samples_leaf=5,
                                            class_weight="balanced_subsample",
                                            random_state=draw, n_jobs=-1)
@@ -50,8 +48,8 @@ for frac in FRACS:
     print("training share", frac, "done")
 
 out = pd.DataFrame(rows)
-os.makedirs(config.PROJECT / "results", exist_ok=True)
-out.to_csv(os.path.join(config.PROJECT, "results", "learning_curve.csv"), index=False)
+os.makedirs("results", exist_ok=True)
+out.to_csv(os.path.join("results", "learning_curve.csv"), index=False)
 
 per_fold = out.groupby(["frac", "fold"])[["n_flights", "ap", "f1"]].mean()
 table = per_fold.groupby("frac").agg(n_flights=("n_flights", "mean"),

@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 pd.set_option("display.width", 250)
-ROOT = config.DATA / "alfa" / "processed" / "processed"
+ROOT = Path(str(config.DATA / r"alfa\processed\processed"))
 table = pd.read_csv(str(config.DATA / r"table.csv"))
 split = pd.read_csv(str(config.DATA / r"split.csv"))[["flight", "role"]]
 

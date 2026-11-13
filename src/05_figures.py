@@ -13,7 +13,7 @@ import evalkit
 from evalkit import load, feature_lists, fit_rule, apply_rule, persist
 
 evalkit.TABLE = str(config.DATA / r"table2.csv")
-ROOT = config.DATA / "alfa" / "processed" / "processed"
+ROOT = Path(str(config.DATA / r"alfa\processed\processed"))
 os.makedirs(str(config.PROJECT / "figures"), exist_ok=True)
 
 df = load()

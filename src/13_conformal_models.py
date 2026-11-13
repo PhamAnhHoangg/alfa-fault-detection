@@ -5,7 +5,7 @@ Same method as 12_conformal_threshold.py, but on the out-of-fold probabilities s
 NORMAL-second scores of the other folds, same model and same seed. Results are averaged over folds
 and seeds."""
 import math
-import os, config
+import os
 import numpy as np
 import pandas as pd
 import evalkit
@@ -13,7 +13,7 @@ import evalkit
 ALPHAS = [0.05, 0.02, 0.01]
 K_PERSIST = 3
 
-oof = pd.read_csv(os.path.join(config.PROJECT, "results", "oof_models.csv"))
+oof = pd.read_csv(os.path.join("results", "oof_models.csv"))
 models = sorted(oof["model"].unique())
 seeds = sorted(oof["seed"].unique())
 print("rows:", len(oof), "(expected 49185) | models:", models, "| seeds:", seeds)
@@ -44,8 +44,8 @@ for model in models:
                 rows.append(res)
 
 out = pd.DataFrame(rows)
-os.makedirs(config.PROJECT / "results", exist_ok=True)
-out.to_csv(os.path.join(config.PROJECT, "results", "conformal_models.csv"), index=False)
+os.makedirs("results", exist_ok=True)
+out.to_csv(os.path.join("results", "conformal_models.csv"), index=False)
 
 order = ["fixed 0.5"] + [f"alpha={a}" for a in ALPHAS]
 metrics = ["threshold", "raw_fa_rate", "f1", "prec", "rec_eng", "rec_oth", "fa_s_per_min", "med_delay_s"]

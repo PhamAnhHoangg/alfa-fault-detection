@@ -74,7 +74,7 @@ Line numbers refer to the repository at the commit that added this file. If a sc
 | Dummy baselines | `src/14_dummy_baseline.py` 20 to 39 | prior and stratified guesses |
 | Calibration | `src/15_calibration.py` 21 to 32 | 10 bins, Brier score |
 | Permutation importance | `src/16_permutation_importance.py` 29 to 37 | drop in average precision when columns are shuffled together |
-| Learning curve | `src/17_learning_curve.py` 12 to 49 | whole flights drawn at 25, 50, 75 and 100 percent |
+| Learning curve | `src/17_learning_curve.py` 12 to 47 | whole flights drawn at 25, 50, 75 and 100 percent |
 | Final model | `src/18_train_final.py` 17 to 25 | forest trained on all development flights, saved with `joblib.dump` |
 | API | `src/api.py` 25 to 73 | `load_bundle` (25), `persistent_alarm` (32), `/health` (46), `/predict` (53) |
 
