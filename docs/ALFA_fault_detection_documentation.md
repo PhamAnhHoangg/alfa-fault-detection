@@ -612,7 +612,7 @@ r = Sxy / sqrt(Sxx * Syy), where Sxy = sum of x_tilde * y_tilde, Sxx = sum of x_
 
 Sxx comes from squaring x_tilde, the feature after the flight average is removed. Syy comes from squaring y_tilde, the label after the flight average is removed. The colour scale is cut at -0.6 and 0.6.
 
-**Worked example: the cell 0.65** (alt_error__mean5, engine). The numbers were printed from table.csv in the data folder, using the development rows of 18 engine flights (1944 rows).
+**Worked example: the cell 0.65** (alt_error__mean5, engine). The numbers were printed from table.csv in the data folder, using the development rows of 18 engine flights (1944 rows). The scripts that print them are experiments/trace_fig7_cell.py, trace_fig7_csv.py and trace_fig7_mean5.py. They import evalkit, so run them from the repo root with `$env:PYTHONPATH = "src"` set.
 
 | Quantity | What it is | Value |
 |---|---|---|
