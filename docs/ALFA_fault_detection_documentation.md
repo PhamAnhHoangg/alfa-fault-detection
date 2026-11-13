@@ -216,6 +216,9 @@ Two rules apply to every addition. No company data of any kind goes into the pro
 - Why the two altitude features share credit in permutation importance is untested.
 - The API takes finished feature values. A real deployment would need the feature building from raw logs in the same service.
 - fig9_calibration.png exists locally but has not been committed or checked for readability yet.
+- The 10 signals were chosen in the early experiments (step6_effect.py, step7_effect2.py, step8_placebo.py), which looped over every flight folder before the split existed. So the 9 test flights were visible when the signals were picked. The models and thresholds were still fitted on dev flights only, but the feature choice was not blind to the test set.
+- The test rows are read again after 04_final_test.py: 05_figures.py refits on dev and predicts on test to draw fig1, step23_rudder_check.py looks at test fault rows, and export_fig_data.py exports test rows for the GIFs. Nothing was tuned from these looks, but "scored once" means the reported numbers come from 04 only.
+- Some sessions start seconds apart, for example 2018-09-11-14-41-38 (cv3) and 2018-09-11-14-41-51 (test). If they are parts of one recording, the session split would leak. Their time ranges have not been compared yet.
 
 ### Credits
 
@@ -238,7 +241,7 @@ This lesson gets the project running on a new Windows PC, step by step. Everythi
 ### 2. Get the code
 
 ```powershell
-cd E:\ml-course
+cd X:\your-folder
 git clone https://github.com/PhamAnhHoangg/alfa-fault-detection
 cd alfa-fault-detection
 ```
@@ -265,7 +268,7 @@ The flag --no-cache-dir stops pip from filling the C: drive with a download cach
 Choose one data folder. The raw flights must sit inside it at `alfa\processed\processed\carbonZ_<flight>` (this is the path in `01_build_table.py`), and the scripts write `table.csv`, `split.csv` and `table2.csv` into the same folder. Then tell the scripts where it is:
 
 ```powershell
-$env:ALFA_DATA = "E:\ml-course\data"
+$env:ALFA_DATA = "X:\your-folder\data"
 ```
 
 If ALFA_DATA is not set, the code uses a folder named `data` inside the project (`config.py`, line 5). This setting lasts for the current window only. Set it again in each new PowerShell window. The data folder is in .gitignore and must never be committed.
@@ -289,7 +292,7 @@ Run each script with `python src\NAME.py` from the project folder.
 ### 7. Run the API and the tests
 
 ```powershell
-python -m uvicorn api:app --port 8011
+python -m uvicorn api:app --app-dir src --port 8011
 ```
 
 Open http://127.0.0.1:8011/health in a browser. The root address shows Not Found, which is normal. If the port is busy, pick another number. Then run `python src\19_sample_request.py` for a sample request, and `pytest` for the tests. Twenty tests pass locally. Tests that need the data are skipped when the data is missing.
@@ -609,7 +612,7 @@ r = Sxy / sqrt(Sxx * Syy), where Sxy = sum of x_tilde * y_tilde, Sxx = sum of x_
 
 Sxx comes from squaring x_tilde, the feature after the flight average is removed. Syy comes from squaring y_tilde, the label after the flight average is removed. The colour scale is cut at -0.6 and 0.6.
 
-**Worked example: the cell 0.65** (alt_error__mean5, engine). The numbers were printed from E:\ml-course\data\table.csv, using the development rows of 18 engine flights (1944 rows).
+**Worked example: the cell 0.65** (alt_error__mean5, engine). The numbers were printed from table.csv in the data folder, using the development rows of 18 engine flights (1944 rows).
 
 | Quantity | What it is | Value |
 |---|---|---|

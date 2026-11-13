@@ -1,7 +1,7 @@
 ﻿"""Correlation check on dev flights.
 1) Which signals move with the fault label (compared inside each flight).
 2) Which signals duplicate each other (redundancy)."""
-import os
+import os, config
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -50,7 +50,7 @@ print("\nfeature pairs with |r| > 0.9:", len(pairs))
 for a, b, r in pairs:
     print(f"  {r:+.2f}  {a}  <->  {b}")
 
-os.makedirs("figures", exist_ok=True)
+os.makedirs(config.PROJECT / "figures", exist_ok=True)
 
 # fig7: feature vs label, per fault type
 data = table.fillna(0).to_numpy()
@@ -66,7 +66,7 @@ for i in range(data.shape[0]):
 fig.colorbar(im, ax=ax, label="within-flight r with the fault label")
 ax.set_title("Which signals move with the fault (inside each flight)")
 fig.tight_layout()
-fig.savefig(os.path.join("figures", "fig7_label_correlation.png"), dpi=150)
+fig.savefig(os.path.join(config.PROJECT, "figures", "fig7_label_correlation.png"), dpi=150)
 plt.close(fig)
 
 # fig6: feature vs feature
@@ -79,6 +79,6 @@ ax.set_yticklabels(cols, fontsize=6)
 fig.colorbar(im, ax=ax, label="correlation r")
 ax.set_title("Which features duplicate each other (dev rows)")
 fig.tight_layout()
-fig.savefig(os.path.join("figures", "fig6_feature_correlation.png"), dpi=150)
+fig.savefig(os.path.join(config.PROJECT, "figures", "fig6_feature_correlation.png"), dpi=150)
 plt.close(fig)
 print("\nsaved figures\\fig6_feature_correlation.png and figures\\fig7_label_correlation.png")

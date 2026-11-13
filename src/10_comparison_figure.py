@@ -1,9 +1,9 @@
 ﻿"""Figure 8: model comparison (reads results/model_comparison.csv)."""
-import os
+import os, config
 import pandas as pd
 import matplotlib.pyplot as plt
 
-out = pd.read_csv(os.path.join("results", "model_comparison.csv"))
+out = pd.read_csv(os.path.join(config.PROJECT, "results", "model_comparison.csv"))
 models = ["forest", "catboost", "mlp"]
 colors = {"forest": "#4c72b0", "catboost": "#dd8452", "mlp": "#55a868"}
 
@@ -37,12 +37,12 @@ for m in models:
                 s=140, edgecolor="black", label=m, zorder=3)
 ax2.set_xlabel("false-alarm seconds per minute of normal flight")
 ax2.set_ylabel("engine-fault recall")
-ax2.set_title("Higher recall came with more false alarms (model means)")
+ax2.set_title("Engine recall vs false alarms (model means)")
 ax2.legend(title="big dot = mean, small dots = folds")
 
 fig.tight_layout()
-os.makedirs("figures", exist_ok=True)
-path = os.path.join("figures", "fig8_model_comparison.png")
+os.makedirs(config.PROJECT / "figures", exist_ok=True)
+path = os.path.join(config.PROJECT, "figures", "fig8_model_comparison.png")
 fig.savefig(path, dpi=150)
 plt.close(fig)
 print("saved", path)

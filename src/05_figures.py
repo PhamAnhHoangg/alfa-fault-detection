@@ -13,7 +13,7 @@ import evalkit
 from evalkit import load, feature_lists, fit_rule, apply_rule, persist
 
 evalkit.TABLE = str(config.DATA / r"table2.csv")
-ROOT = Path(str(config.DATA / r"alfa\processed\processed"))
+ROOT = config.DATA / "alfa" / "processed" / "processed"
 os.makedirs(str(config.PROJECT / "figures"), exist_ok=True)
 
 df = load()
@@ -73,7 +73,7 @@ for a, ch, name in zip(ax, (3, 4, 5), ("ch3 - rudder (inferred)", "ch4 - left ai
     a.plot(d["rel"], d[f"field.channels{ch}"], lw=1)
     a.axvline(0, color="red")
     a.set_ylabel(name + "\nPWM (us)", fontsize=8)
-ax[0].set_title("Test flight " + fl2 + " (rudder_zero + left aileron failure)", fontsize=9)
+ax[0].set_title("Test flight " + fl2, fontsize=9)
 ax[2].set_xlabel("seconds relative to fault start")
 fig.tight_layout()
 fig.savefig(str(config.PROJECT / "figures" / r"fig2_frozen_channels.png"), dpi=150)

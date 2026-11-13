@@ -1,6 +1,6 @@
 """Model comparison on the dev folds: random forest vs CatBoost vs a small Keras network.
 Dev flights only. The locked test set is not used."""
-import os
+import os, config
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
 os.environ["KERAS_BACKEND"] = "tensorflow"
 import time
@@ -88,10 +88,10 @@ for name in ["forest", "catboost", "mlp"]:
             rows.append(res)
     print(f"{name} finished in {time.time() - t0:.0f} s")
 
-pd.concat(saved).to_csv(os.path.join("results", "oof_models.csv"), index=False)
+os.makedirs(config.PROJECT / "results", exist_ok=True)
+pd.concat(saved).to_csv(os.path.join(config.PROJECT, "results", "oof_models.csv"), index=False)
 out = pd.DataFrame(rows)
-os.makedirs("results", exist_ok=True)
-out.to_csv(os.path.join("results", "model_comparison.csv"), index=False)
+out.to_csv(os.path.join(config.PROJECT, "results", "model_comparison.csv"), index=False)
 
 metrics = ["f1", "prec", "rec_eng", "rec_oth", "fa_s_per_min", "med_delay_s", "ap"]
 per_seed = out.groupby(["model", "seed"])[metrics].mean()

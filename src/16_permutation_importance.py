@@ -2,7 +2,7 @@
 
 Permutation importance = drop in average precision on a held-out fold when one feature's values are
 shuffled. Duplicated features share credit, so a group test shuffles related columns together."""
-import os
+import os, config
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
@@ -59,8 +59,8 @@ for f in folds:
     print("fold", f, "done")
 
 pf = pd.concat(per_fold)
-os.makedirs("results", exist_ok=True)
-pf.to_csv(os.path.join("results", "permutation_importance.csv"), index=False)
+os.makedirs(config.PROJECT / "results", exist_ok=True)
+pf.to_csv(os.path.join(config.PROJECT, "results", "permutation_importance.csv"), index=False)
 imp = pf.groupby("feature")["drop"].agg(["mean", "std"]).sort_values("mean", ascending=False)
 
 print("\nTop 12 features: mean AP drop over 5 folds (std = spread between folds)")

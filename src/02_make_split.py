@@ -45,7 +45,7 @@ fl = (table.groupby("flight")
 fl["role"] = fl["session"].map(ASSIGN)
 if fl["role"].isna().any():
     print(fl[fl["role"].isna()])
-    raise SystemExit("some sessions have no assignment - tell Claude")
+    raise SystemExit("some sessions have no assignment: add them to ASSIGN")
 fl["fault_group"] = np.where(fl.fault_type == "none", "none",
                              np.where(fl.fault_type == "engine", "engine", "other"))
 
@@ -58,8 +58,10 @@ summary = fl.groupby("role").agg(
     rows=("rows", "sum"), fault_rows=("fault_rows", "sum"),
     biggest_flight_share=("share", "max"))
 print(summary.round(2).to_string())
-print("\nsessions split across more than one part (must be 0):",
-      int((fl.groupby("session")["role"].nunique() > 1).sum()))
+n_split = int((fl.groupby("session")["role"].nunique() > 1).sum())
+print("\nsessions split across more than one part (must be 0):", n_split)
+if n_split:
+    raise SystemExit("a session appears in two groups")
 print("total rows:", int(fl["rows"].sum()), " total fault rows:", int(fl["fault_rows"].sum()))
 print("\nLOCKED TEST FLIGHTS (do not tune on these):")
 for _, r in fl[fl.role == "test"].iterrows():

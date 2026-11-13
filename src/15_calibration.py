@@ -1,5 +1,5 @@
 ﻿"""Self-check 2: are the model scores trustworthy as probabilities? (dev folds, seed 0, out-of-fold)"""
-import os
+import os, config
 import numpy as np
 import pandas as pd
 import matplotlib
@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from sklearn.calibration import calibration_curve
 from sklearn.metrics import brier_score_loss
 
-oof = pd.read_csv(os.path.join("results", "oof_models.csv"))
+oof = pd.read_csv(os.path.join(config.PROJECT, "results", "oof_models.csv"))
 oof = oof[oof["seed"] == 0]
 prev = oof[oof["model"] == "forest"]["label"].mean()
 print("Fault share:", round(prev, 3),
@@ -37,7 +37,7 @@ ax.set_title("Calibration on held-out folds")
 ax.legend(loc="upper left", frameon=False)
 ax.set_xlim(0, 1)
 ax.set_ylim(0, 1)
-os.makedirs("figures", exist_ok=True)
+os.makedirs(config.PROJECT / "figures", exist_ok=True)
 fig.tight_layout()
-fig.savefig(os.path.join("figures", "fig9_calibration.png"), dpi=150)
+fig.savefig(os.path.join(config.PROJECT, "figures", "fig9_calibration.png"), dpi=150)
 print("\nsaved figures\\fig9_calibration.png")

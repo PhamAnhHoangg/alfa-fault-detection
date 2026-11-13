@@ -20,8 +20,8 @@ Line numbers refer to the repository at the commit that added this file. If a sc
 | 8 | `src/08_correlation.py` | `table.csv`, `split.csv` | `figures/fig6`, `fig7` |
 | 9 | `src/09_model_comparison.py` | `table.csv`, `split.csv` | `results/oof_models.csv`, `results/model_comparison.csv` |
 | 10 | `src/10_comparison_figure.py` | `results/model_comparison.csv` | `figures/fig8` |
-| 11 | `src/12_conformal_threshold.py`, `13_conformal_models.py` | `results/oof_*.csv` | printed tables |
-| 12 | `src/14_dummy_baseline.py`, `15_calibration.py`, `16_permutation_importance.py`, `17_learning_curve.py` | results files or the table | printed tables, `figures/fig9` |
+| 11 | `src/12_conformal_threshold.py`, `13_conformal_models.py` | `results/oof_*.csv` | printed tables, `results/conformal_threshold.csv`, `results/conformal_models.csv` |
+| 12 | `src/14_dummy_baseline.py`, `15_calibration.py`, `16_permutation_importance.py`, `17_learning_curve.py` | results files or the table | printed tables, `figures/fig9` (not committed yet), `results/permutation_importance.csv`, `results/learning_curve.csv` |
 | 13 | `src/18_train_final.py` | `table.csv`, `split.csv` | `models/forest.joblib` |
 | 14 | `src/api.py`, `src/19_sample_request.py` | `models/forest.joblib` | the demo service and a sample request |
 
@@ -52,7 +52,7 @@ Line numbers refer to the repository at the commit that added this file. If a sc
 | Label | `src/01_build_table.py` 75 to 80 | `label = (t + 1 > fault_sec)`, `t_rel_fault = t - fault_sec` |
 | Drop the first 10 s | `src/01_build_table.py` 84 | rows with `t < 10` are removed |
 | Session assignment | `src/02_make_split.py` 7 to 38 | the `ASSIGN` dictionary: session to `cv0`..`cv4` or `test` |
-| Session never split | `src/02_make_split.py` 40 to 66 | checks per group and per fault type |
+| Session never split | `src/02_make_split.py` 40 to 68 | checks per group and per fault type, and stops if a session lands in two groups |
 | Frozen channel | `src/03_command_features.py` 22 to 26 | per-second standard deviation with `ddof=0`, frozen when it is 0, 3 seconds in a row |
 | Any frozen channel | `src/03_command_features.py` 30 to 31 | `cmd_frozen_any` is the maximum over channels |
 | Detector A | `src/04_final_test.py` 21 to 22 | `fit_rule` on development rows, then `persist(..., 3)` |
@@ -74,7 +74,7 @@ Line numbers refer to the repository at the commit that added this file. If a sc
 | Dummy baselines | `src/14_dummy_baseline.py` 20 to 39 | prior and stratified guesses |
 | Calibration | `src/15_calibration.py` 21 to 32 | 10 bins, Brier score |
 | Permutation importance | `src/16_permutation_importance.py` 29 to 37 | drop in average precision when columns are shuffled together |
-| Learning curve | `src/17_learning_curve.py` 12 to 47 | whole flights drawn at 25, 50, 75 and 100 percent |
+| Learning curve | `src/17_learning_curve.py` 12 to 49 | whole flights drawn at 25, 50, 75 and 100 percent |
 | Final model | `src/18_train_final.py` 17 to 25 | forest trained on all development flights, saved with `joblib.dump` |
 | API | `src/api.py` 25 to 73 | `load_bundle` (25), `persistent_alarm` (32), `/health` (46), `/predict` (53) |
 
