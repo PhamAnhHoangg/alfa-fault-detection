@@ -33,17 +33,17 @@ No company data goes into this project.
 14. Code explanations: line-by-line tables, and a task list per Python file (reads, does, writes).
 15. Formulas written like in a thesis (test real equations in the doc, otherwise use the PDF route).
 16. "Unsolved problems" section.
-17. "Mistaken concepts" section, grown through quizzes.
+17. Dropped on 2026-11-13: no "Mistaken concepts" section.
 18. PDF of the merged document with the figure index and issue list at the top.
 19. PowerPoint deck (new or updated, no company data).
 
 ### D. Learning path
-20. Continue teaching the scripts step by step with 2 quizzes per script. Done: 08, 09. Next: 10 quizzes, then 12 onward.
+20. Quizzes stopped on 2026-11-13 after 08 and 09.
 
 ### E. Open checks
 21. Start-of-flight drift check: does drift at the start of a flight drive the engine correlations in fig7?
 22. Same step-by-step trace for the `std5` and `delta10` rows (the `mean5` cells are already traced).
-23. Decide whether fig9 is committed or stays a text note.
+23. Done: fig9_calibration.png committed on 2026-11-13.
 24. Re-check the wording of key point 2 ("never after").
 25. Done: the fig2 title now uses only the flight name. Regenerate fig2 and fig8 on the PC.
 26. Done.

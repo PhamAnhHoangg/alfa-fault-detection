@@ -21,7 +21,7 @@ Line numbers refer to the repository at the commit that added this file. If a sc
 | 9 | `src/09_model_comparison.py` | `table.csv`, `split.csv` | `results/oof_models.csv`, `results/model_comparison.csv` |
 | 10 | `src/10_comparison_figure.py` | `results/model_comparison.csv` | `figures/fig8` |
 | 11 | `src/12_conformal_threshold.py`, `13_conformal_models.py` | `results/oof_*.csv` | printed tables, `results/conformal_threshold.csv`, `results/conformal_models.csv` |
-| 12 | `src/14_dummy_baseline.py`, `15_calibration.py`, `16_permutation_importance.py`, `17_learning_curve.py` | results files or the table | printed tables, `figures/fig9` (not committed yet), `results/permutation_importance.csv`, `results/learning_curve.csv` |
+| 12 | `src/14_dummy_baseline.py`, `15_calibration.py`, `16_permutation_importance.py`, `17_learning_curve.py` | results files or the table | printed tables, `figures/fig9`, `results/permutation_importance.csv`, `results/learning_curve.csv` |
 | 13 | `src/18_train_final.py` | `table.csv`, `split.csv` | `models/forest.joblib` |
 | 14 | `src/api.py`, `src/19_sample_request.py` | `models/forest.joblib` | the demo service and a sample request |
 
