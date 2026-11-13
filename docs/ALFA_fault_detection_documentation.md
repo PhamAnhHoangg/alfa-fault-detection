@@ -43,7 +43,7 @@ These are the ideas that cost the most time when learning this project. They are
 | Key point | What it means | Example | The mistake it leads to |
 |---|---|---|---|
 | 1. Split by session, not by row | Rows from one flight are near copies of each other | Neighbouring seconds share 4 of 5 seconds in their 5-second mean | A high score that disappears on new flights |
-| 2. Features only look backward | A feature at second t uses seconds up to t, never after | vel_lin_z__mean5 at second 40 averages seconds 36 to 40 | Accidental use of the future makes the model look better than it is |
+| 2. Features only look backward | A feature at second t uses readings up to the end of second t (time t + 1), never later. The label uses the same edge (t + 1 > fault_sec), so the two line up | vel_lin_z__mean5 at second 40 averages seconds 36 to 40, which means readings from 36.0 s to just before 41.0 s | Accidental use of the future makes the model look better than it is |
 | 3. The "3" means 3 seconds in a row | The final alarm needs 3 raw alarms in consecutive seconds | Raw alarms at 50, 52, 53, 54 give a final alarm at 54 | Reading it as 3 messages or 3 features |
 | 4. D2 is a ceiling, not a rival | D2 reads the command channels where the fault is injected | D2 scores 0.87 and the forest 0.50, but they see different things | Claiming the forest is far worse than a better detector |
 | 5. The test set gets one look | 9 locked flights, scored once by 04_final_test.py | Changing the threshold after seeing test results would tune on the test | Optimistic numbers that cannot be repeated |

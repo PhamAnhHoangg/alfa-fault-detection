@@ -44,10 +44,10 @@ No company data goes into this project.
 21. Start-of-flight drift check: does drift at the start of a flight drive the engine correlations in fig7?
 22. Same step-by-step trace for the `std5` and `delta10` rows (the `mean5` cells are already traced).
 23. Done: fig9_calibration.png committed on 2026-11-13.
-24. Re-check the wording of key point 2 ("never after").
+24. Done: key point 2 now says a feature at second t uses readings up to the end of second t (01_build_table.py line 61).
 25. Done: the fig2 title now uses only the flight name. Regenerate fig2 and fig8 on the PC.
 26. Done.
-31. Check whether sessions that start seconds apart (for example 2018-09-11-14-41-38 in cv3 and 2018-09-11-14-41-51 in test) overlap in time. Script: `src/20_session_overlap.py`. Result on 2026-11-13: 6 overlaps. The test pair (14-41-51 test, 14-41-38 cv3) shares no timestamps and overlaps about 6 s at the edge; 14-41-38 is a no-failure flight. The 2018-10-05 pair and the 2018-10-18 group were checked the same day: no shared timestamps and no altitude trace that matches another at any shift, so no copied flights. Split kept as it is.
+31. Done. Check whether sessions that start seconds apart (for example 2018-09-11-14-41-38 in cv3 and 2018-09-11-14-41-51 in test) overlap in time. Script: `src/20_session_overlap.py`. Result on 2026-11-13: 6 overlaps. The test pair (14-41-51 test, 14-41-38 cv3) shares no timestamps and overlaps about 6 s at the edge; 14-41-38 is a no-failure flight. The 2018-10-05 pair and the 2018-10-18 group were checked the same day: no shared timestamps and no altitude trace that matches another at any shift, so no copied flights. Split kept as it is.
 32. Decide whether to redo the signal screening (step6 to step8) on dev flights only.
 
 ## Later: bigger projects
