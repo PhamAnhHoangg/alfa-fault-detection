@@ -41,7 +41,7 @@ No company data goes into this project.
 20. Quizzes stopped on 2026-11-13 after 08 and 09.
 
 ### E. Open checks
-21. Start-of-flight drift check: does drift at the start of a flight drive the engine correlations in fig7?
+21. Done (experiments/drift_check.py): early seconds do not inflate the engine correlations; they weaken some delta10 and xtrack_error cells.
 22. Same step-by-step trace for the `std5` and `delta10` rows (the `mean5` cells are already traced).
 23. Done: fig9_calibration.png committed on 2026-11-13.
 24. Done: key point 2 now says a feature at second t uses readings up to the end of second t (01_build_table.py line 61).

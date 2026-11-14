@@ -646,7 +646,7 @@ Syy depends only on the labels, so it is the same for every feature in a column:
 - The flight average is subtracted so a flight that simply sits higher or lower than the others does not look related to the label.
 - Dividing by the square root of Sxx times Syy puts every cell between -1 and 1. Signals have different units, and Sxy alone cannot be compared: xtrack_error has an Sxy of 3011.0 and vel_lin_z has -417.2, but their r values are 0.09 and -0.67.
 - We use it to see which signals move with each fault type, so we know which features are worth giving the detectors.
-- It is a picture of the development rows, not a test. The elevator column is one flight with 66 rows. Engine rows may include drift at the start of each flight, where the label is 0 and the signal is still settling. That has not been checked yet.
+- It is a picture of the development rows, not a test. The elevator column is one flight with 66 rows. Start-of-flight drift was checked on 2026-11-14 (experiments/drift_check.py): the first 30 s of each engine flight were dropped and compared with dropping the same number of random normal seconds. The early seconds do not inflate the engine column. The headline mean5 cells barely move (alt_error__mean5 stays at 0.65). Some cells get stronger without the early seconds: alt_error__delta10 goes from 0.56 to 0.71 against 0.57 for random drops, and xtrack_error__std5 from -0.06 to 0.23 against -0.07. So the settling at the start of a flight hides part of the delta10 and xtrack_error links rather than creating them. Whether the models would gain from dropping those seconds was not tested.
 
 **Code that produces the numbers** (08_correlation.py, then the trace script run on the project computer)
 
