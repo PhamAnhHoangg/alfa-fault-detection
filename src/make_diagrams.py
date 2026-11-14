@@ -1,7 +1,7 @@
 """Draws the explanation diagrams (no data needed, facts come from the scripts).
 
 Run:  python src/make_diagrams.py
-Writes figures/diagram1_time_window.png ... diagram4_script_map.png
+Writes figures/diagram1_time_window.png ... diagram5_detectors.png
 """
 from pathlib import Path
 
@@ -110,10 +110,10 @@ def pipeline():
     ax.text(0.2, 2.9, "Figures and the script that draws each", fontsize=11.5, fontweight="bold")
     outs = [
         (0.2, "fig1, fig2", "05_figures.py"),
-        (2.2, "fig3, fig4, fig5", "07_figures.py"),
+        (2.2, "fig3, fig4, fig5", "07_health_figures.py"),
         (4.9, "fig6, fig7", "08_correlation.py"),
         (7.6, "fig8", "10_comparison_figure.py"),
-        (10.0, "fig9", "15_calibration.py"),
+        (10.2, "fig9", "15_calibration.py"),
     ]
     widths = [1.8, 2.5, 2.5, 2.4, 2.4]
     for (x, name, src), w in zip(outs, widths):
@@ -268,9 +268,40 @@ def script_map():
     plt.close(fig)
 
 
+# ---------------------------------------------------------------- picture 5
+def detectors():
+    fig, ax = plt.subplots(figsize=(13, 6.2))
+    ax.set_xlim(0, 13.4)
+    ax.set_ylim(0, 6.4)
+    ax.axis("off")
+    cols = [
+        (0.3, "A  sensor rule", "#dbeafe", "21 sensor features",
+         "one feature, one threshold\nfitted on dev rows:\nvel_lin_z__mean5 <= -0.833", "3 seconds in a row", "test F1 0.46"),
+        (4.75, "F  sensor forest", "#dbeafe", "21 sensor features",
+         "random forest, 300 trees,\nclass-balanced\nfault if p >= 0.5", "3 seconds in a row", "test F1 0.50"),
+        (9.2, "D2  command side", "#fef3c7", "rc-out channels 1 to 5",
+         "channel 1, 3, 4 or 5 frozen 3 s\nOR channel 2 (throttle)\nbelow a level fitted on dev", "throttle part: 3 in a row", "test F1 0.87, a ceiling"),
+    ]
+    for x, title, fc, reads, rule, persist, score in cols:
+        ax.text(x + 1.95, 6.05, title, ha="center", va="center", fontsize=12, fontweight="bold")
+        box(ax, x, 4.75, 3.9, 0.8, "reads: " + reads, fc=fc, fs=9.5)
+        box(ax, x, 2.95, 3.9, 1.3, rule, fc="#ffffff", fs=9.5)
+        box(ax, x, 1.75, 3.9, 0.7, persist, fc="#ffffff", fs=9.5)
+        box(ax, x, 0.75, 3.9, 0.6, score, fc="#f3f4f6", fs=9.5, bold=True)
+        for y0, y1 in ((4.75, 4.25), (2.95, 2.45), (1.75, 1.35)):
+            arrow(ax, (x + 1.95, y0), (x + 1.95, y1))
+    ax.text(0.3, 0.3, "D2 reads the recorded servo commands, which already contain the injected fault, "
+            "so its score shows how easy the task gets, not a detector for a real aircraft.",
+            fontsize=9.5, color=INK)
+    ax.set_title("The three detectors and what each one reads", fontsize=13, fontweight="bold", loc="left")
+    fig.savefig(OUT / "diagram5_detectors.png", dpi=170, bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     time_window()
     pipeline()
     split()
     script_map()
-    print("saved 4 diagrams in", OUT)
+    detectors()
+    print("saved 5 diagrams in", OUT)

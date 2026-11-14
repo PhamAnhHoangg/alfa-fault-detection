@@ -104,6 +104,8 @@ Example with made-up numbers: raw alarms at seconds 50, 52, 53 and 54. Second 50
 
 #### Three detectors
 
+![The three detectors and what each one reads](../figures/diagram5_detectors.png)
+
 | Detector | What it is | Test F1 |
 |---|---|---|
 | A | One rule: vel_lin_z__mean5 <= -0.833, found by a one-split stump | 0.46 |
