@@ -131,6 +131,10 @@ Instead of fixing 0.5, the threshold can be set so that about a chosen share of 
 
 The figures are in the repository's figures folder: fig1 and fig2 show an engine flight and the frozen command channels, fig3 to fig5 show recall by fault type, the confusion matrix and an alarm timeline, fig6 and fig7 show feature and label correlations, and fig8 compares the models.
 
+![Sensor signals around the fault by fault type](../figures/fig_signals_by_fault_type.png)
+
+Signals around the fault, one panel per fault type, development flights only. Each line is the median over flights of one signal's mean5, scaled by that flight's mean and standard deviation in the 30 s before the fault, so 0 is the flight's normal level. Engine faults move altitude, vertical velocity and alt_error within a few seconds. Aileron faults barely move any signal in the first 10 s. The rudder and elevator panels rest on 3 flights and 1 flight, already swing by about 2 before the fault, and end early because those flights have few seconds after the fault. Drawn by src/make_fault_signals.py.
+
 #### API demo
 
 api.py is a FastAPI service around one forest trained on all 37 development flights. It takes finished feature values per second, not raw logs, and returns a probability, a raw alarm, a final alarm and the first alarm second. The threshold can be overridden between 0 and 1. GET /health lists the 21 expected features, and a request with missing features gets a 422 that names them. The tests run in GitHub Actions (20 pass locally; data tests are skipped on CI because the data is not in the repo).
