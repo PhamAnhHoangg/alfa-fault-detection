@@ -1,0 +1,2 @@
+# Extra package for publishing to Hugging Face (src/publish_hf.py). Use together with requirements.txt.
+huggingface_hub==2.4.0
