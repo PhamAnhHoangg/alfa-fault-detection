@@ -31,7 +31,7 @@ No company data goes into this project.
 12. Fix the old `ALFA_DATA` wording in the three original Claude docs (or treat the merged file as the main copy).
 13. Done: "Numbers used in this project" table added under Notation in Part 3.
 14. Done: code_index.md lists what every script reads and writes, including the checks, picture scripts and experiments.
-15. Formulas written like in a thesis (test real equations in the doc, otherwise use the PDF route).
+15. Done: LaTeX equations added for the features, the label, the metrics and the fig7 correlation. Check how GitHub renders them.
 16. Done: "Unsolved problems" added after "Limits and open questions" in the documentation.
 17. Dropped on 2026-11-13: no "Mistaken concepts" section.
 18. PDF of the merged document with the figure index and issue list at the top.

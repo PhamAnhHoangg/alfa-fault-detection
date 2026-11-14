@@ -413,6 +413,16 @@ wrap(a) = ((a + 180) mod 360) - 180, which keeps an angle difference between -18
 7. Fault type from the flight name: no_failure gives none. Otherwise the first of engine, rudder, elevator, aileron found in the name, in that order. A name that contains both rudder and aileron is therefore typed rudder.
 8. Rows with t below 10 and rows with any missing feature are dropped. Flights marked no_ground_truth are skipped.
 
+The same steps in mathematical notation. $v_\tau$ is a raw reading at time $\tau$ in ns, $R_t$ the readings of second $t$, and $W_t$ the seconds of the 5 s window that have a value:
+
+$$R_t = \lbrace \tau : t \le (\tau - T_0)/10^9 < t + 1 \rbrace, \qquad x_t = \frac{1}{|R_t|} \sum_{\tau \in R_t} v_\tau$$
+
+$$\operatorname{mean5}_t = \frac{1}{m} \sum_{u \in W_t} x_u, \qquad \operatorname{std5}_t = \sqrt{\frac{1}{m - 1} \sum_{u \in W_t} \left(x_u - \operatorname{mean5}_t\right)^2}, \qquad W_t \subseteq \lbrace t-4, \dots, t \rbrace,\ m = |W_t| \ge 3$$
+
+$$\operatorname{delta10}_t = x_t - x_{t-10}, \qquad \operatorname{wrap}(a) = \big((a + 180) \bmod 360\big) - 180$$
+
+$$\varphi = \frac{\min_k \tau^{\mathrm{fail}}_k - T_0}{10^9}, \qquad y_t = \mathbb{1}\left[t + 1 > \varphi\right]$$
+
 Example with made-up numbers: if x over seconds 6 to 10 is -0.2, 0.0, -0.1, 0.1, -0.2, then mean5 at second 10 is -0.4 / 5 = -0.08. The deviations from -0.08 square and sum to 0.068, so std5 = sqrt(0.068 / 4) = 0.13.
 
 #### Command features for detector D2 (03_command_features.py)
@@ -454,6 +464,12 @@ All counts are over seconds (rows) of the group being scored, usually one held-o
 | Brier score | the mean of (p_t - y_t)^2. Always predicting the share pi gives pi * (1 - pi) |  |
 
 F1 is computed on each fold alone and then averaged, so a number such as 0.51 is the mean of five fold scores.
+
+The main metrics in mathematical notation, with $a_t$ the raw alarm, $N_0$ the number of normal rows and $N$ all rows:
+
+$$A_t = \min(a_t, a_{t-1}, a_{t-2}), \qquad P = \frac{TP}{TP + FP}, \qquad R = \frac{TP}{TP + FN}, \qquad F_1 = \frac{2PR}{P + R}$$
+
+$$\mathrm{FA/min} = \frac{FP}{N_0 / 60}, \qquad \mathrm{AP} = \sum_n (R_n - R_{n-1}) P_n, \qquad \mathrm{Brier} = \frac{1}{N} \sum_t (p_t - y_t)^2$$
 
 Example with made-up numbers: a fold has 600 normal seconds and 40 fault seconds. The model raises 6 alarms on normal seconds and 20 on fault seconds. Precision = 20 / 26 = 0.77, recall = 20 / 40 = 0.50, F1 = 2 * 0.77 * 0.50 / 1.27 = 0.61, and false alarms per minute = 6 / (600 / 60) = 0.6.
 
@@ -644,6 +660,10 @@ y_tilde = y - (average of y in that flight)
 Then one correlation over all those rows together:
 
 r = Sxy / sqrt(Sxx * Syy), where Sxy = sum of x_tilde * y_tilde, Sxx = sum of x_tilde squared, Syy = sum of y_tilde squared.
+
+In mathematical notation, with $f(t)$ the flight of row $t$ and $\bar{x}_f$, $\bar{y}_f$ the averages over that flight's rows:
+
+$$\tilde{x}_t = x_t - \bar{x}_{f(t)}, \qquad \tilde{y}_t = y_t - \bar{y}_{f(t)}, \qquad r = \frac{\sum_t \tilde{x}_t \tilde{y}_t}{\sqrt{\sum_t \tilde{x}_t^2 \sum_t \tilde{y}_t^2}}$$
 
 Sxx comes from squaring x_tilde, the feature after the flight average is removed. Syy comes from squaring y_tilde, the label after the flight average is removed. The colour scale is cut at -0.6 and 0.6.
 
