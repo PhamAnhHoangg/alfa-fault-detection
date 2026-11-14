@@ -93,7 +93,8 @@ def panel(ax, x, y, w, h, lines):
                                 fc="white", ec="#cbd5e1", lw=1.4, zorder=1))
     ax.add_patch(Rectangle((x, y + 0.05), 0.07, h - 0.1, fc="#2563eb", ec="none", zorder=2))
     total = sum(kw.get("dy", kw.get("fs", 11) * 1.85 / 72) for _, kw in lines)
-    k = min(1.0, (h - 0.4) / total) if total else 1.0  # shrink only when the text would not fit
+    widest = max((len(s) * kw.get("fs", 11) * (0.62 if kw.get("mono") else 0.56) / 72 for s, kw in lines), default=0)
+    k = min(1.0, (h - 0.4) / total if total else 1.0, (w - 0.45) / widest if widest else 1.0)  # shrink only to fit
     cur = y + 0.28
     for s, kw in lines:
         fs = kw.get("fs", 11) * k
@@ -103,7 +104,7 @@ def panel(ax, x, y, w, h, lines):
         cur += kw.get("dy", kw.get("fs", 11) * 1.85 / 72) * k
 
 
-PANEL_SCALE = 1.25  # side-panel text scale, so the explanation stays readable when the GIF is shown small
+PANEL_SCALE = 4.4  # side-panel text scale, so the explanation stays readable when the GIF is shown small
 
 
 def Hd(s):

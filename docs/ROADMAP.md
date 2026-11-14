@@ -9,7 +9,7 @@ No company data goes into this project.
 - Code index with script, function and line numbers (`docs/code_index.md`), pushed.
 - Pictures 1 to 4 drawn (picture 4 is the script map, `diagram4_script_map.png`) and GIF 1 (time window, `gif1_time_window.gif`): time window, pipeline, split (`figures/diagram1_time_window.png`, `diagram2_pipeline.png`, `diagram3_split.png`, script `src/make_diagrams.py`). Pushed.
 - Code review fixes (2026-11-13): pytest.ini saved without BOM so pytest starts, 09 creates `results/` before writing, 02 stops if a session lands in two groups, fixed titles removed from fig2 and fig8, uvicorn command in the docs gets `--app-dir src`, neutral setup paths in the docs, three new lines under "Limits and open questions".
-- Bigger GIF text (2026-11-14): captions grow with the GIF width (about 2.2 percent of it, at most 2 lines), the panel text in the figure GIFs and in GIF 5 and 6 is about 25 to 35 percent bigger and only shrinks when it would not fit. All GIFs and walkthrough_numbers.mp4 were rebuilt.
+- Bigger GIF text (2026-11-14): captions about 3.5 times the original size (about 7.7 percent of the GIF width, in a taller caption bar); panel text, panel titles and the explanation text are as big as their space allows and shrink only where they would not fit (height or width). The wide, flat panels in GIF 6 stay small because of their shape. Stale "fig9 is not on GitHub yet" captions in GIF 2 and GIF 4 fixed. All GIFs and walkthrough_numbers.mp4 rebuilt.
 
 ## Queue: next steps
 
@@ -25,7 +25,7 @@ No company data goes into this project.
 7. Done: the README Summary and Results table already cover it.
 8. Done: "How to read this repo" section added under the Summary.
 9. Done: "Related work" section added to the README (ALFA paper, ICRA 2019 paper, alfa-dataset-tools, DronLomaly).
-10. Licence: undecided.
+10. Done (2026-11-14): MIT License for the code; ALFA data and derived data stay CC BY 4.0.
 
 ### C. Documentation
 11. Done for the setup steps. The experiments scripts still hold the original paths.

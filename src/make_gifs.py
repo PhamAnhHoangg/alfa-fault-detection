@@ -37,14 +37,14 @@ STEP_MS, LAST_MS, FADE_N, FADE_MS = 3000, 5000, 6, 50
 
 
 # ---------------------------------------------------------------- frame base
-def caption_fit(cap, width_in):
-    """Caption size grows with the GIF width (about 2.2 % of it); shrink only if more than 2 lines."""
+def caption_fit(cap, width_in, height_in):
+    """Caption size grows with the GIF width (about 7.7 % of it); shrink only if more than 3 lines."""
     import textwrap
-    fs = 0.022 * width_in * 72
+    fs = 0.077 * width_in * 72
     while True:
         chars = int(0.9 * width_in * 72 / (0.56 * fs))
         lines = [ln for para in cap.split("\n") for ln in textwrap.wrap(para, chars) or [""]]
-        if len(lines) <= 2 or fs <= 13.5:
+        if (len(lines) <= 3 and len(lines) * fs * 1.45 <= 0.25 * height_in * 72) or fs <= 13.5:
             return fs, lines
         fs *= 0.95
 
@@ -59,15 +59,15 @@ def base(title, step, n, cap, size, dpi, xlim, ylim):
                              fc="#3b5bb5", ec="none"))
     fig.add_artist(Rectangle((0.70, 0.953), 0.28 * (step + 1) / n, 0.018,
                              transform=fig.transFigure, fc="#fbbf24", ec="none"))
-    fig.add_artist(FancyBboxPatch((0.02, 0.02), 0.96, 0.135, transform=fig.transFigure,
+    fig.add_artist(FancyBboxPatch((0.02, 0.02), 0.96, 0.27, transform=fig.transFigure,
                                   boxstyle="round,pad=0.002,rounding_size=0.01",
                                   fc="#fffbeb", ec="#f59e0b", lw=1.6))
-    fig.add_artist(Rectangle((0.02, 0.02), 0.008, 0.135, transform=fig.transFigure,
+    fig.add_artist(Rectangle((0.02, 0.02), 0.008, 0.27, transform=fig.transFigure,
                              fc="#f59e0b", ec="none"))
-    cap_fs, lines = caption_fit(cap, size[0])
-    fig.text(0.5, 0.087, "\n".join(lines), ha="center", va="center", fontsize=cap_fs, color=INK,
+    cap_fs, lines = caption_fit(cap, size[0], size[1])
+    fig.text(0.5, 0.155, "\n".join(lines), ha="center", va="center", fontsize=cap_fs, color=INK,
              linespacing=1.45)
-    ax = fig.add_axes([0.01, 0.175, 0.98, 0.735])
+    ax = fig.add_axes([0.01, 0.31, 0.98, 0.60])
     ax.set_xlim(*xlim)
     ax.set_ylim(*ylim)
     ax.axis("off")
@@ -324,7 +324,7 @@ PIPE_CAPS = [
     "From the table we build rolling features: mean5, std5 and delta10 for 10 signals.\n30 are built, 21 are used by the models.",
     "02_make_split.py gives whole sessions either to the dev part or to the locked test part.\nDev has 37 flights, test has 9.",
     "Three detectors read the features: A (a simple rule), F (a random forest)\nand D2 (a rule on the frozen command channels).",
-    "Each figure is drawn by one script.\nfig9, the calibration plot from 15_calibration.py, is not on GitHub yet.",
+    "Each figure is drawn by one script.\nfig9, the calibration plot, comes from 15_calibration.py.",
     "The rule of the whole pipeline:\nfeatures look backward only, and the test flights are scored once.",
 ]
 
@@ -456,7 +456,7 @@ SM_CAPS = [
     "These scripts all load their data through evalkit.py.\n04 and 05 switch it to table2.csv.",
     "Each model script writes its own result file, or its figures.\n06 writes the out-of-fold predictions and 09 the model results.",
     "The report scripts read those result files:\n07 and 12 read 06's file, 10, 13, 14 and 15 read 09's files, api.py loads forest.joblib.",
-    "They write the remaining figures, tables and the API output.\nfig9 from 15_calibration.py is not on GitHub yet.",
+    "They write the remaining figures, tables and the API output.\nfig9 comes from 15_calibration.py.",
     "Run order is the number in the file name.\nScripts 07 to 15 need the result files of 06 and 09 first.",
 ]
 

@@ -15,6 +15,7 @@ Every GIF has the same order:
 """
 from pathlib import Path
 
+import matplotlib
 import pandas as pd
 from PIL import Image, ImageDraw, ImageFont
 
@@ -28,7 +29,7 @@ STEP_MS, LAST_MS, FADE_N, FADE_MS = 3000, 5000, 6, 50
 ORANGE = "#f97316"
 COLORS = ["#2563eb", "#16a34a", "#d97706", "#7c3aed", "#db2777", "#0284c7", "#dc2626"]
 YEL, BLU, ORA, GRN = "#fde68a", "#bfdbfe", "#fed7aa", "#bbf7d0"
-FD = "/usr/share/fonts/truetype/dejavu/"
+FD = str(Path(matplotlib.get_data_path()) / "fonts" / "ttf") + "/"  # DejaVu ships with matplotlib, so this works on Windows too
 
 
 def font(size, bold=False, mono=False):
@@ -114,7 +115,7 @@ def draw_table(img, d, spec):
 def draw_text(img, d, lines):
     ax0, ay0, ax1, ay1 = AREA
     d.rounded_rectangle((ax0, ay0, ax1, ay1), radius=10, fill="#fffbeb", outline="#d97706", width=3)
-    scale = 1.2 * W / 1280  # bigger explanation text, shrunk only if it would not fit the box
+    scale = 4.2 * W / 1280  # bigger explanation text, shrunk only if it would not fit the box
     while True:
         y, out = ay0 + 24, []
         for text, color, size in lines:
@@ -150,8 +151,11 @@ def frame(png, title, steps, i):
     d.rounded_rectangle((PANEL_X, HEADER_H + 16, PANEL_X + pw2, H - BAR_H - 16), radius=14,
                         fill="#f8fafc", outline=color, width=4)
     d.rounded_rectangle((PANEL_X, HEADER_H + 16, PANEL_X + pw2, HEADER_H + 62), radius=14, fill=color)
-    d.text((PANEL_X + 16, HEADER_H + 24), head, font=font(round(23 * W / 1280), True), fill="white")
-    size, bottom = round(26 * W / 1280), H - BAR_H - 30
+    hs = round(28 * W / 1280)
+    while hs > 16 and d.textlength(head, font=font(hs, True)) > pw2 - 32:  # long titles shrink to fit
+        hs -= 1
+    d.text((PANEL_X + 16, HEADER_H + 39 - hs // 2), head, font=font(hs, True), fill="white")
+    size, bottom = round(91 * W / 1280), H - BAR_H - 30
     while True:  # biggest size that still fits the panel
         fnt = font(size)
         lines = wrap(d, text, fnt, pw2 - 32)

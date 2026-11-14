@@ -294,6 +294,10 @@ What is done and what is planned next: [docs/ROADMAP.md](docs/ROADMAP.md).
 
 Numbers reported in these papers use other data subsets and other metrics, so they are not compared with the results here.
 
+## License
+
+The code is under the MIT License (see [LICENSE](LICENSE)). The ALFA data and everything derived from it, such as the snippets in `docs/gif_data/` and the table on Hugging Face, stay under CC BY 4.0 and need credit to the original authors (see Credits).
+
 ## Credits
 
 **Data and paper**
