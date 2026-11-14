@@ -91,6 +91,7 @@ These are not part of the main run order.
 | `src/make_fault_signals.py` | `table.csv`, `split.csv` | `figures/fig_signals_by_fault_type.png` |
 | `src/make_pdf.py` | `docs/ALFA_fault_detection_documentation.md`, `figures/*.png` | `docs/ALFA_fault_detection_documentation.pdf` (needs pandoc and xelatex) |
 | `src/mcp_server.py` | `models/forest.joblib`, `table.csv`, `split.csv` | MCP tools over stdio: model_info, list_flights, score_flight, score_rows |
+| `mcp-plugin/` | nothing (template) | a Claude desktop plugin that starts `src/mcp_server.py`; fill in your paths and zip it |
 | `src/make_diagrams.py` | nothing | `figures/diagram1` to `diagram5` |
 | `src/make_gifs.py` | `docs/gif_data/per_second_example.csv`, `example_info.csv` | `figures/gif1` to `gif4` |
 | `src/make_gifs_data.py` | `docs/gif_data/` snippets, `figures/fig7` | `figures/gif3`, `gif5`, `gif6`, `walkthrough_numbers.mp4` |

@@ -218,15 +218,19 @@ Limits: the service takes the finished feature values, not raw sensor logs, beca
 
 `src/mcp_server.py` lets an AI app that speaks the Model Context Protocol (Claude Desktop, Claude Code and others) use the same saved forest as the API. Tools: `model_info`, `list_flights`, `score_flight` (one development flight from `table.csv`) and `score_rows` (new per-second feature rows, the same input as `/predict`).
 
-The forest was trained on all development flights, so `score_flight` results are in-sample and every reply says `seen_in_training: true`. Locked test flights are refused. Install with `pip install -r requirements.txt -r requirements-mcp.txt`, run `src/18_train_final.py` once, then add the server to the app's MCP config, for example:
+Before it can score anything it needs the ALFA data and a trained model, which are not in this repository. Download the data (see [Data](#data)), run `src/01_build_table.py`, `src/02_make_split.py` and `src/18_train_final.py`, then `pip install -r requirements.txt -r requirements-mcp.txt`.
 
-```json
-{"mcpServers": {"alfa": {"command": "X:\\your-folder\\.venv\\Scripts\\python.exe",
-  "args": ["X:\\your-folder\\alfa-fault-detection\\src\\mcp_server.py"],
-  "env": {"ALFA_DATA": "X:\\your-folder\\data"}}}}
+The forest was trained on all development flights, so `score_flight` results are in-sample and every reply says `seen_in_training: true`. Locked test flights are refused.
+
+**Claude desktop app.** Use the plugin template in [mcp-plugin/](mcp-plugin/README.md): put your own paths into its `.mcp.json`, zip it as a `.plugin` file and add it under Settings, Plugins, Add, Upload plugin. This is the route that worked with the Windows Store version of the app; that version did not read a `claude_desktop_config.json`.
+
+**Claude Code and other MCP apps.** Register the same command, for example in Claude Code:
+
+```
+claude mcp add alfa --env ALFA_DATA=X:\your-folder\data -- X:\your-folder\.venv\Scripts\python.exe X:\your-folder\alfa-fault-detection\src\mcp_server.py
 ```
 
-Tried on dev engine flight 2018-07-18-15-53-31_1: no alarm before the fault, 15 alarm seconds after it, the first 1.8 s after the fault start. `tests/test_mcp_server.py` checks the tools and is skipped when the mcp package or the saved model is missing.
+Tried through the Claude desktop app on dev engine flight 2018-07-18-15-53-31_1: no alarm before the fault, 15 alarm seconds after it, the first 1.8 s after the fault start. `tests/test_mcp_server.py` checks the tools and is skipped when the mcp package or the saved model is missing.
 
 ## Visual guide
 

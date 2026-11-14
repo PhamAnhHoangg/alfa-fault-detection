@@ -1,0 +1,9 @@
+{
+  "name": "alfa-fault-detection",
+  "version": "0.1.0",
+  "description": "Scores ALFA UAV flights second by second with the saved random forest from the alfa-fault-detection project",
+  "author": {
+    "name": "Pham Anh Hoang"
+  },
+  "repository": "https://github.com/PhamAnhHoangg/alfa-fault-detection"
+}

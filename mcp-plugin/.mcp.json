@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "alfa": {
+      "command": "X:\\your-folder\\.venv\\Scripts\\python.exe",
+      "args": [
+        "X:\\your-folder\\alfa-fault-detection\\src\\mcp_server.py"
+      ],
+      "env": {
+        "ALFA_DATA": "X:\\your-folder\\data"
+      }
+    }
+  }
+}
