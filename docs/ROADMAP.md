@@ -48,7 +48,7 @@ No company data goes into this project.
 25. Done: the fig2 title now uses only the flight name. Regenerate fig2 and fig8 on the PC.
 26. Done.
 31. Done. Check whether sessions that start seconds apart (for example 2018-09-11-14-41-38 in cv3 and 2018-09-11-14-41-51 in test) overlap in time. Script: `src/20_session_overlap.py`. Result on 2026-11-13: 6 overlaps. The test pair (14-41-51 test, 14-41-38 cv3) shares no timestamps and overlaps about 6 s at the edge; 14-41-38 is a no-failure flight. The 2018-10-05 pair and the 2018-10-18 group were checked the same day: no shared timestamps and no altitude trace that matches another at any shift, so no copied flights. Split kept as it is.
-32. Decide whether to redo the signal screening (step6 to step8) on dev flights only.
+32. Done (experiments/screening_dev_only.py): dev flights alone rank the chosen signals as high or higher, so the signals and the test score are kept.
 
 ## Later: bigger projects
 
