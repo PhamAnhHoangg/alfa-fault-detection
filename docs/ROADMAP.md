@@ -52,7 +52,7 @@ No company data goes into this project.
 
 ## Later: bigger projects
 
-27. Own small MCP server that loads the trained model and scores a flight. No ALFA MCP server was found in a search on 2026-11-10, so this would be new. Build step by step after the docs.
+27. Done (2026-11-14): src/mcp_server.py with model_info, list_flights, score_flight and score_rows, built on mcp 2.3.0 (requirements-mcp.txt). score_flight marks dev flights as seen in training and refuses test flights. Tested over stdio and in tests/test_mcp_server.py.
 28. Extra test of the detector on a large public PX4 flight-log dataset (1396 real logs reported in a paper; title and link still to find). Needs a mapping from its signals to the 21 features.
 29. Optionally publish the model and the per-second table on Hugging Face. Check the ALFA licence first.
 30. Read related work found in the search: castacks/alfa-dataset-tools, DronLomaly, Flogtool, the ardupilot-mcp log diagnosis server.

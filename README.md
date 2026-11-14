@@ -214,6 +214,20 @@ Tried on one real dev engine-fault flight (`src/19_sample_request.py`): the prob
 
 Limits: the service takes the finished feature values, not raw sensor logs, because building those features is done by the table script and is not part of the service. The model is trained on the public ALFA data only. It is a demo: no authentication, one model, loaded from a local file. `tests/test_api.py` checks the service with a tiny model built inside the test, so it needs no data.
 
+## MCP server
+
+`src/mcp_server.py` lets an AI app that speaks the Model Context Protocol (Claude Desktop, Claude Code and others) use the same saved forest as the API. Tools: `model_info`, `list_flights`, `score_flight` (one development flight from `table.csv`) and `score_rows` (new per-second feature rows, the same input as `/predict`).
+
+The forest was trained on all development flights, so `score_flight` results are in-sample and every reply says `seen_in_training: true`. Locked test flights are refused. Install with `pip install -r requirements.txt -r requirements-mcp.txt`, run `src/18_train_final.py` once, then add the server to the app's MCP config, for example:
+
+```json
+{"mcpServers": {"alfa": {"command": "X:\\your-folder\\.venv\\Scripts\\python.exe",
+  "args": ["X:\\your-folder\\alfa-fault-detection\\src\\mcp_server.py"],
+  "env": {"ALFA_DATA": "X:\\your-folder\\data"}}}}
+```
+
+Tried on dev engine flight 2018-07-18-15-53-31_1: no alarm before the fault, 15 alarm seconds after it, the first 1.8 s after the fault start. `tests/test_mcp_server.py` checks the tools and is skipped when the mcp package or the saved model is missing.
+
 ## Visual guide
 
 Step-by-step GIFs with a caption on every step (about 3 seconds each).

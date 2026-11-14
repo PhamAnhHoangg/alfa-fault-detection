@@ -1,0 +1,3 @@
+# Extra package for the MCP server (src/mcp_server.py). Use together with requirements.txt.
+mcp==2.3.0
+joblib==1.6.0
