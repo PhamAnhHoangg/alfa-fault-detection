@@ -18,7 +18,7 @@ No company data goes into this project.
 3. Done: signals by fault type around the fault, `figures/fig_signals_by_fault_type.png` from `src/make_fault_signals.py` (uses the mean5 features, not raw readings).
 4. Done: detector flow, `figures/diagram5_detectors.png` from `src/make_diagrams.py`. Diagram 2 also fixed (script name 07_health_figures.py, fig9 box no longer touches fig8).
 5. Turn every picture into a step-by-step GIF with a caption on each step (script `src/make_gifs.py`). Done: GIF 1 time window, GIF 2 pipeline, GIF 3 split (with real split tables), GIF 4 script map, GIF 5 where the numbers come from (real rows of one engine-fault flight), GIF 6 the fig7 cell 0.65, and `walkthrough_numbers.mp4` (GIF 5 and 6 joined). Data snippets for them are in `docs/gif_data/` (made by `src/export_gif_data.py`, drawn by `src/make_gifs_data.py`). To do: the other 27 fig7 cells, std5 and delta10 traces over a whole flight. To do: Then possibly one short video that joins them, linked from the README.
-6. Fix the pipeline-map widget (fig8 reads `model_comparison.csv`, and the right panel shows engine-fault recall) and animation steps 5 and 6 (pooling happens after per-flight demeaning).
+6. Done: the two errors were in a chat widget, not in the repo. The repo pictures were checked on 2026-11-14: diagram 4 and GIF 4 show fig8 reading `model_comparison.csv`, gif_fig8 shows engine recall on the right panel, and gif6 removes the flight average before the sum. The stale "fig9 (not on GitHub yet)" label in diagram 4 and GIF 4 was removed.
 
 ### B. README
 7. Done: the README Summary and Results table already cover it.

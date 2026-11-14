@@ -255,7 +255,7 @@ def script_map():
 
     outs = [(5.0, "fig3, fig4, fig5"), (6.95, "conformal_\nthreshold.csv"), (8.9, "fig8"),
             (10.7, "conformal_\nmodels.csv"), (12.5, "printed\ncomparison"),
-            (14.3, "fig9 (not on\nGitHub yet)"), (17.3, "predictions over\nHTTP")]
+            (14.3, "fig9"), (17.3, "predictions over\nHTTP")]
     for x, t in outs:
         node(x, 0.9, t, "out", w=1.7, h=0.8, fs=7.5)
         link((x, 1.9), (x, 1.3))

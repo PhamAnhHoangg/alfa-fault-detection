@@ -401,7 +401,7 @@ REP = [(5.0, "07_health_\nfigures.py", 2, "fig3, fig4, fig5", "out"),
        (8.9, "10_comparison_\nfigure.py", 4, "fig8", "out"),
        (10.7, "13_conformal_\nmodels.py", 4, "conformal_\nmodels.csv", "out"),
        (12.5, "14_dummy_\nbaseline.py", 4, "printed\ncomparison", "out"),
-       (14.3, "15_calibration.py", 4, "fig9 (not on\nGitHub yet)", "out"),
+       (14.3, "15_calibration.py", 4, "fig9", "out"),
        (17.3, "api.py", 7, "predictions\nover HTTP", "out")]
 
 SM = [
