@@ -1,6 +1,6 @@
 # ALFA fault detection: full documentation
 
-Project owner: Pham Anh Hoang. Last updated 2026-11-10. This file merges the project documentation, the setup lesson and the formula reference into one page. It is a work in progress and is updated as the project grows. The code line numbers are in [code_index.md](code_index.md).
+Project owner: Pham Anh Hoang. Last updated 2026-11-14. This file merges the project documentation, the setup lesson and the formula reference into one page. It is a work in progress and is updated as the project grows. The code line numbers are in [code_index.md](code_index.md).
 
 ## Contents
 
@@ -543,7 +543,7 @@ def persist(d, pred, k):
 - Fault time in nanoseconds: fault_ns = the smallest first timestamp among the failure_status files of the flight.
 - Horizontal axis: rel = (reading time in ns - fault_ns) / 1,000,000,000, kept from -20 s to 30 s.
 - Vertical axis: the raw value of field.channels3, 4 and 5 of the mavros-rc-out file, in microseconds (PWM). Nothing is averaged or transformed.
-- The title and the channel names are typed into the script, so they are not read from the data.
+- The channel names are typed into the script. The title is the flight name, read from the data.
 
 **Code that produces the numbers** (05_figures.py)
 
@@ -762,14 +762,16 @@ ax2.scatter(d["fa_s_per_min"].mean(), d["rec_eng"].mean())   # big dot
 
 #### Fig9: calibration
 
-*Figure 9 is not committed to the repository yet. It is produced by src/15_calibration.py.*
+![Fig9 calibration](../figures/fig9_calibration.png)
+
+Produced by src/15_calibration.py.
 
 **Formula**
 
 - Scores of one model are put into 10 equal-width bins from 0 to 1. For each non-empty bin, x = the mean score of the bin and y = the share of its seconds with label 1.
 - A model whose scores can be read as probabilities lies on the dashed diagonal.
 - Brier score = the mean of (p_t - y_t)^2 over all rows. Always guessing the fault share pi gives pi * (1 - pi), which is about 0.13 here.
-- The script reads seed 0 of results/oof_models.csv. The figure is not committed to the repository yet.
+- The script reads seed 0 of results/oof_models.csv.
 
 **Code that produces the numbers** (15_calibration.py)
 
@@ -807,7 +809,7 @@ While writing this page every script was read again. These points are correction
 | A fig7 cell averages one correlation per flight | The feature and label are shifted by each flight's own mean, then one correlation is taken over all rows of the fault type |
 | Fig8 reads oof_models.csv | It reads model_comparison.csv. Fig9 reads oof_models.csv, seed 0 |
 | The dual-fault flight has its own type | A name with both rudder and aileron is typed rudder, because rudder is checked first |
-| The fig2 title is read from the data | It is typed into 05_figures.py. Check that the first rudder test flight really is the rudder plus aileron flight |
+| The fig2 title is read from the data | True since 2026-11-13. Before that the fault words were typed into 05_figures.py; now the title is only the flight name, which already contains the fault type |
 | Scripts 04 and 05 use the same forest as 06 | They add a median imputer in front of the forest. 06 and 09 do not, and the features there have no missing values |
 
-Two smaller points. Normal flights are kept in full by the 30 second cap, and all their rows count in the false alarms per minute. Script 09 writes oof_models.csv before it creates the results folder, so it would fail on a fresh checkout with no results folder.
+Two smaller points. Normal flights are kept in full by the 30 second cap, and all their rows count in the false alarms per minute. Script 09 used to write oof_models.csv before creating the results folder; that was fixed on 2026-11-13.
