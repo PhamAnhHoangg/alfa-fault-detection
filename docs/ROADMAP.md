@@ -54,7 +54,7 @@ No company data goes into this project.
 
 27. Done (2026-11-14): src/mcp_server.py with model_info, list_flights, score_flight and score_rows, built on mcp 2.3.0 (requirements-mcp.txt). score_flight marks dev flights as seen in training and refuses test flights. Tested over stdio, in tests/test_mcp_server.py and through the Claude desktop app with the plugin in mcp-plugin/.
 28. Dataset found (2026-11-14): UAV-SEAD, "UAV-SEAD: State Estimation Anomaly Dataset for UAVs", Kabaoglu and Sariel, arXiv:2602.13900. 1396 real PX4 flight logs, over 52 h, CC BY 4.0. Fit problems: multirotors (ALFA is fixed-wing), state estimation anomalies (ALFA has injected actuator and engine faults), and PX4 uORB topics instead of mavros, so alt_error and xtrack_error from the fixed-wing controller have no direct match. The trained forest cannot be applied as it is; what could transfer is the method (per-second table, session split, 3-in-a-row alarm). Planned for later as a separate mini project: the same method on UAV-SEAD, in its own repository.
-29. Prepared (2026-11-14): ALFA licence checked, CC BY 4.0 (figshare record 12707963), so the table and model can be shared with credit. Cards in hf/, upload script src/publish_hf.py (huggingface_hub 2.4.0, requirements-hf.txt), uploads as private repos. Still to do: create a Hugging Face account, run the script, check the pages, then make them public.
+29. Done (2026-11-14): published as Alanbros12/alfa-fault-forest (model) and Alanbros12/alfa-per-second-table (dataset), both public, CC BY 4.0 with ALFA credit. Cards in hf/, upload script src/publish_hf.py.
 30. Read related work found in the search: castacks/alfa-dataset-tools, DronLomaly, Flogtool, the ardupilot-mcp log diagnosis server.
 
 ## Rules that stay fixed

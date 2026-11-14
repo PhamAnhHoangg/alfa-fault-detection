@@ -232,6 +232,13 @@ claude mcp add alfa --env ALFA_DATA=X:\your-folder\data -- X:\your-folder\.venv\
 
 Tried through the Claude desktop app on dev engine flight 2018-07-18-15-53-31_1: no alarm before the fault, 15 alarm seconds after it, the first 1.8 s after the fault start. `tests/test_mcp_server.py` checks the tools and is skipped when the mcp package or the saved model is missing.
 
+## On Hugging Face
+
+- Model: [Alanbros12/alfa-fault-forest](https://huggingface.co/Alanbros12/alfa-fault-forest), the saved forest with its alarm rule and a model card.
+- Data: [Alanbros12/alfa-per-second-table](https://huggingface.co/datasets/Alanbros12/alfa-per-second-table), the per-second table and the session split.
+
+Both credit the ALFA authors (CC BY 4.0). The cards are kept in `hf/` and uploaded with `src/publish_hf.py`.
+
 ## Visual guide
 
 Step-by-step GIFs with a caption on every step (about 3 seconds each).
