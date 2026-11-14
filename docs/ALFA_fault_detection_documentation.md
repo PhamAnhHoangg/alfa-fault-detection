@@ -350,6 +350,31 @@ Every row of the project's table is one second of one flight. A flight has raw r
 
 The label means the fault starts before the end of second t. If phi = 116.3, second 116 is the first with label 1, and its t - phi is -0.3.
 
+**Numbers used in this project**
+
+| Number | Meaning | Where it is set |
+|---|---|---|
+| 47, 46 | Processed flights in ALFA, and the ones used. The flight without ground truth is skipped | 01_build_table.py, the "no_ground_truth" check |
+| 37, 9 | Development and locked test flights | 02_make_split.py, ASSIGN |
+| 5 | Development folds, cv0 to cv4, split by session | 02_make_split.py, ASSIGN |
+| 10 | Raw signals turned into features | 01_build_table.py, SIGNALS |
+| 30, 21 | Feature columns in the table, and sensor features the models use (cause_ and rc_out columns removed) | 01_build_table.py lines 64 to 66; 06_oof_predictions.py |
+| 5 s | Longest gap filled by carrying the last value forward | 01_build_table.py line 62, ffill(limit=5) |
+| 5 s, 3 | Window of mean5 and std5, and the fewest values needed to compute them | 01_build_table.py lines 64 and 65 |
+| 10 s | Look-back of delta10 | 01_build_table.py line 66 |
+| 10 | Rows with t below 10 are dropped, because delta10 needs 10 earlier seconds | 01_build_table.py line 84 |
+| 30 s | Rows more than 30 s after the fault are not scored | evalkit.py, load(cap=30) |
+| 4260, 4113, 659 | Rows in table.csv, rows after the 30 s cap, and fault rows after the cap | 02_make_split.py output; evalkit.load(cap=30) |
+| 3279, 508 | Development rows and development fault rows after the cap | evalkit.load(cap=30), role not test |
+| 0.5 | Probability threshold for a raw alarm | 04_final_test.py line 28; 06_oof_predictions.py line 22 |
+| 3 | Seconds in a row for a final alarm | evalkit.py, persist; 04_final_test.py; 06_oof_predictions.py line 23 |
+| 300, 5 | Trees in the forest, and the fewest rows in a leaf | 06_oof_predictions.py lines 17 and 18; 04_final_test.py line 25 |
+| -0.833 | Detector A threshold on vel_lin_z__mean5, found on development rows | 04_final_test.py line 21, fit_rule |
+| 20 s | Pre-fault control window: alarms in the 20 s before the fault | evalkit.py line 51, pre_window=20 |
+| 5 | Seeds (0 to 4) in the model comparison | 09_model_comparison.py |
+
+The counts were printed from the data on 2026-11-14. If the data or the split changes, they change too.
+
 ### From a raw flight to one table row
 
 | Step by step | Static picture |
