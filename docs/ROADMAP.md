@@ -32,7 +32,7 @@ No company data goes into this project.
 13. Symbols and numbers table: symbol, meaning, number, where it is in the data.
 14. Code explanations: line-by-line tables, and a task list per Python file (reads, does, writes).
 15. Formulas written like in a thesis (test real equations in the doc, otherwise use the PDF route).
-16. "Unsolved problems" section.
+16. Done: "Unsolved problems" added after "Limits and open questions" in the documentation.
 17. Dropped on 2026-11-13: no "Mistaken concepts" section.
 18. PDF of the merged document with the figure index and issue list at the top.
 19. PowerPoint deck (new or updated, no company data).

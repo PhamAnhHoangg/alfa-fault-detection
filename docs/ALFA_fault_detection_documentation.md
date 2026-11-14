@@ -220,6 +220,16 @@ Two rules apply to every addition. No company data of any kind goes into the pro
 - The test rows are read again after 04_final_test.py: 05_figures.py refits on dev and predicts on test to draw fig1, step23_rudder_check.py looks at test fault rows, and export_fig_data.py exports test rows for the GIFs. Nothing was tuned from these looks, but "scored once" means the reported numbers come from 04 only.
 - Some sessions overlap in time (src/20_session_overlap.py finds 6). The only one that touches the test set is 2018-09-11-14-41-51 (test, elevator) and 2018-09-11-14-41-38 (cv3, no failure). They share no timestamps and overlap by about 6 seconds at the edge, so no rows are copied, but they come from the same time in the air. The 2018-10-05 pair and the 2018-10-18 group overlap by up to about 2 minutes across dev folds. A check on 2026-11-13 found no shared timestamps in any overlapping pair, and no pair whose 1 second altitude traces match at any time shift (the closest mean difference is about 1.2 m, as close as flights from different days). So no flight is a copy of another. Why four engine-failure flights on 2018-10-18 have overlapping timestamps is not explained; it looks like a clock offset in the recordings.
 
+### Unsolved problems
+
+Questions that the checks so far raised but did not answer.
+
+1. Non-engine faults from sensors alone. Aileron, rudder and elevator faults are caught 12 to 27 percent of the time. It is open whether other signals, longer windows or a detector trained on normal flights only would do better, and there are only 1 elevator and 3 rudder flights to test that on.
+2. A fair command-side detector. The recorded rc-out commands already contain the injected fault, so ALFA cannot show how a command-side detector would do on a real failure.
+3. Signal choice. roll_gap is used although the screening ranks it 15th or 16th of 26, and yaw_measured and hud_climb rank 4th and 7th on dev flights but are not used. Whether swapping them changes the results is untested.
+4. The first seconds of each flight. Dropping the first 30 s makes several delta10 and xtrack_error correlations stronger (experiments/drift_check.py). Whether the detectors gain from dropping those seconds is untested.
+5. Overlapping clocks on 2018-10-18. Four engine-failure flights have overlapping timestamps, which one plane cannot fly. No data is copied, and a clock offset is the likely cause, but it is not confirmed.
+
 ### Credits
 
 Project owner: Pham Anh Hoang (GitHub: PhamAnhHoangg). Data: the ALFA dataset from Carnegie Mellon University, downloaded from its original source.
