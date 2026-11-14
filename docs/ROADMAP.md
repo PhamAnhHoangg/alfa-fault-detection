@@ -28,7 +28,7 @@ No company data goes into this project.
 
 ### C. Documentation
 11. Done for the setup steps. The experiments scripts still hold the original paths.
-12. Fix the old `ALFA_DATA` wording in the three original Claude docs (or treat the merged file as the main copy).
+12. Done: the three original docs are no longer in the repo, so the merged documentation is the main copy. Every ALFA_DATA mention in README, documentation and code_index matches config.py line 5, and the README example path now uses the same neutral X:\your-folder as the docs.
 13. Done: "Numbers used in this project" table added under Notation in Part 3.
 14. Done: code_index.md lists what every script reads and writes, including the checks, picture scripts and experiments.
 15. Done: LaTeX equations added for the features, the label, the metrics and the fig7 correlation. Check how GitHub renders them.

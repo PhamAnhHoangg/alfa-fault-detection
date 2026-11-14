@@ -255,7 +255,7 @@ What is done and what is planned next: [docs/ROADMAP.md](docs/ROADMAP.md).
 1. Download the ALFA processed data from the DOI above and unzip it so that the flight folders are in
    `<data folder>/alfa/processed/processed/carbonZ_*`.
 2. `pip install -r requirements.txt`
-3. Set the data folder: PowerShell `$env:ALFA_DATA = "C:\path\to\data"` (default: `data/` inside the repository).
+3. Set the data folder: PowerShell `$env:ALFA_DATA = "X:\your-folder\data"` (default: `data/` inside the repository).
 4. Run `src/01_build_table.py`, `02_make_split.py`, `03_command_features.py`, `04_final_test.py`, `05_figures.py` in order.
 5. Extra checks (dev folds only): run `src/06` to `src/17` in numeric order. `09` and `10` need the TensorFlow environment (`requirements-tf.txt`); `12` needs the output of `06`, and `13` to `15` need the output of `09`.
 6. API demo: `pip install -r requirements-api.txt`, `python src/18_train_final.py`, then `uvicorn api:app --app-dir src` and open `http://127.0.0.1:8000/docs` (add `--port 8011` if port 8000 is busy). `python src/19_sample_request.py` writes a sample request from one dev flight.
