@@ -669,6 +669,10 @@ Sxx comes from squaring x_tilde, the feature after the flight average is removed
 
 **Worked example: the cell 0.65** (alt_error__mean5, engine). The numbers were printed from table.csv in the data folder, using the development rows of 18 engine flights (1944 rows). The scripts that print them are experiments/trace_fig7_cell.py, trace_fig7_csv.py and trace_fig7_mean5.py. They import evalkit, so run them from the repo root with `$env:PYTHONPATH = "src"` set.
 
+![Fig7 cell alt_error__mean5 for engine as a scatter](../figures/fig7_cell_scatter.png)
+
+Each dot is one engine row: x~ across, y~ up. Within a flight y~ takes only two values, so the dots form bands. Fault seconds (red) sit above 0 and mostly to the right, normal seconds (blue) below 0 and close to the middle, and the black line through 0 has the slope Sxy / Sxx. Drawn by src/make_fig7_scatter.py.
+
 | Quantity | What it is | Value |
 |---|---|---|
 | x_tilde | The row's alt_error__mean5 minus its flight's average | one number per row, first row -4.8257 |

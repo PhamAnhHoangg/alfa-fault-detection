@@ -14,7 +14,7 @@ No company data goes into this project.
 
 ### A. Pictures and visuals
 1. Done: pictures 1 to 4 and the fig GIFs are pushed.
-2. Picture 4: fig7 cell as a scatter (each engine row as a dot, x~ against y~, with the line).
+2. Done: fig7 cell as a scatter, `figures/fig7_cell_scatter.png` from `src/make_fig7_scatter.py`.
 3. Picture 5: raw signals by fault type around the fault, one panel per type.
 4. Picture 6: detector flow, A, F and D2 side by side with what each reads.
 5. Turn every picture into a step-by-step GIF with a caption on each step (script `src/make_gifs.py`). Done: GIF 1 time window, GIF 2 pipeline, GIF 3 split (with real split tables), GIF 4 script map, GIF 5 where the numbers come from (real rows of one engine-fault flight), GIF 6 the fig7 cell 0.65, and `walkthrough_numbers.mp4` (GIF 5 and 6 joined). Data snippets for them are in `docs/gif_data/` (made by `src/export_gif_data.py`, drawn by `src/make_gifs_data.py`). To do: the other 27 fig7 cells, std5 and delta10 traces over a whole flight. To do: Then possibly one short video that joins them, linked from the README.
