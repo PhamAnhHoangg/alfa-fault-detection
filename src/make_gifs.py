@@ -37,6 +37,18 @@ STEP_MS, LAST_MS, FADE_N, FADE_MS = 3000, 5000, 6, 50
 
 
 # ---------------------------------------------------------------- frame base
+def caption_fit(cap, width_in):
+    """Caption size grows with the GIF width (about 2.2 % of it); shrink only if more than 2 lines."""
+    import textwrap
+    fs = 0.022 * width_in * 72
+    while True:
+        chars = int(0.9 * width_in * 72 / (0.56 * fs))
+        lines = [ln for para in cap.split("\n") for ln in textwrap.wrap(para, chars) or [""]]
+        if len(lines) <= 2 or fs <= 13.5:
+            return fs, lines
+        fs *= 0.95
+
+
 def base(title, step, n, cap, size, dpi, xlim, ylim):
     fig = plt.figure(figsize=size, dpi=dpi)
     fig.add_artist(Rectangle((0, 0.925), 1, 0.075, transform=fig.transFigure, fc=HEAD, ec="none"))
@@ -52,8 +64,9 @@ def base(title, step, n, cap, size, dpi, xlim, ylim):
                                   fc="#fffbeb", ec="#f59e0b", lw=1.6))
     fig.add_artist(Rectangle((0.02, 0.02), 0.008, 0.135, transform=fig.transFigure,
                              fc="#f59e0b", ec="none"))
-    fig.text(0.5, 0.087, cap, ha="center", va="center", fontsize=13.5, color=INK,
-             linespacing=1.55)
+    cap_fs, lines = caption_fit(cap, size[0])
+    fig.text(0.5, 0.087, "\n".join(lines), ha="center", va="center", fontsize=cap_fs, color=INK,
+             linespacing=1.45)
     ax = fig.add_axes([0.01, 0.175, 0.98, 0.735])
     ax.set_xlim(*xlim)
     ax.set_ylim(*ylim)

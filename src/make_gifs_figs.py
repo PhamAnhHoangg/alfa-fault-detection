@@ -114,13 +114,20 @@ def draw_table(img, d, spec):
 def draw_text(img, d, lines):
     ax0, ay0, ax1, ay1 = AREA
     d.rounded_rectangle((ax0, ay0, ax1, ay1), radius=10, fill="#fffbeb", outline="#d97706", width=3)
-    y = ay0 + 24
-    for text, color, size in lines:
-        f = font(size, bold=(color != "#1f2937"), mono=True)
-        for line in wrap(d, text, f, ax1 - ax0 - 40):
-            d.text((ax0 + 20, y), line, font=f, fill=color)
-            y += int(size * 1.5)
-        y += 8
+    scale = 1.2 * W / 1280  # bigger explanation text, shrunk only if it would not fit the box
+    while True:
+        y, out = ay0 + 24, []
+        for text, color, size in lines:
+            f = font(max(12, round(size * scale)), bold=(color != "#1f2937"), mono=True)
+            for line in wrap(d, text, f, ax1 - ax0 - 40):
+                out.append((y, line, f, color))
+                y += int(f.size * 1.5)
+            y += 8
+        if y <= ay1 - 10 or scale <= 0.8:
+            break
+        scale -= 0.05
+    for y, line, f, color in out:
+        d.text((ax0 + 20, y), line, font=f, fill=color)
 
 
 def frame(png, title, steps, i):
@@ -143,12 +150,18 @@ def frame(png, title, steps, i):
     d.rounded_rectangle((PANEL_X, HEADER_H + 16, PANEL_X + pw2, H - BAR_H - 16), radius=14,
                         fill="#f8fafc", outline=color, width=4)
     d.rounded_rectangle((PANEL_X, HEADER_H + 16, PANEL_X + pw2, HEADER_H + 62), radius=14, fill=color)
-    d.text((PANEL_X + 16, HEADER_H + 26), head, font=font(21, True), fill="white")
+    d.text((PANEL_X + 16, HEADER_H + 24), head, font=font(round(23 * W / 1280), True), fill="white")
+    size, bottom = round(26 * W / 1280), H - BAR_H - 30
+    while True:  # biggest size that still fits the panel
+        fnt = font(size)
+        lines = wrap(d, text, fnt, pw2 - 32)
+        if HEADER_H + 80 + len(lines) * int(size * 1.45) <= bottom or size <= 17:
+            break
+        size -= 1
     y = HEADER_H + 80
-    fnt = font(19)
-    for line in wrap(d, text, fnt, pw2 - 32):
+    for line in lines:
         d.text((PANEL_X + 16, y), line, font=fnt, fill="#1f2937")
-        y += 28
+        y += int(size * 1.45)
     d.rectangle((0, H - BAR_H, W, H), fill="#e5e7eb")
     d.rectangle((0, H - BAR_H, int(W * (i + 1) / n), H), fill=color)
     return img

@@ -1,6 +1,6 @@
 # Roadmap and future work
 
-Last updated: 2026-11-13. This file lists what is done, what is queued, and what comes later.
+Last updated: 2026-11-14. This file lists what is done, what is queued, and what comes later.
 No company data goes into this project.
 
 ## Done
@@ -9,6 +9,7 @@ No company data goes into this project.
 - Code index with script, function and line numbers (`docs/code_index.md`), pushed.
 - Pictures 1 to 4 drawn (picture 4 is the script map, `diagram4_script_map.png`) and GIF 1 (time window, `gif1_time_window.gif`): time window, pipeline, split (`figures/diagram1_time_window.png`, `diagram2_pipeline.png`, `diagram3_split.png`, script `src/make_diagrams.py`). Pushed.
 - Code review fixes (2026-11-13): pytest.ini saved without BOM so pytest starts, 09 creates `results/` before writing, 02 stops if a session lands in two groups, fixed titles removed from fig2 and fig8, uvicorn command in the docs gets `--app-dir src`, neutral setup paths in the docs, three new lines under "Limits and open questions".
+- Bigger GIF text (2026-11-14): captions grow with the GIF width (about 2.2 percent of it, at most 2 lines), the panel text in the figure GIFs and in GIF 5 and 6 is about 25 to 35 percent bigger and only shrinks when it would not fit. All GIFs and walkthrough_numbers.mp4 were rebuilt.
 
 ## Queue: next steps
 
