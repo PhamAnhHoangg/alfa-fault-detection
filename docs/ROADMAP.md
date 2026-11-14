@@ -35,7 +35,7 @@ No company data goes into this project.
 16. Done: "Unsolved problems" added after "Limits and open questions" in the documentation.
 17. Dropped on 2026-11-13: no "Mistaken concepts" section.
 18. PDF of the merged document with the figure index and issue list at the top.
-19. PowerPoint deck (new or updated, no company data).
+19. Done (2026-11-14): deck updated to 14 slides. New fig8 and diagram 2 pictures, key point 2 wording, a "We checked our own results" slide (session overlap, drift, screening), and next steps without the finished related-work item. No company data.
 
 ### D. Learning path
 20. Quizzes stopped on 2026-11-13 after 08 and 09.
