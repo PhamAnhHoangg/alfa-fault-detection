@@ -30,7 +30,7 @@ No company data goes into this project.
 11. Done for the setup steps. The experiments scripts still hold the original paths.
 12. Fix the old `ALFA_DATA` wording in the three original Claude docs (or treat the merged file as the main copy).
 13. Done: "Numbers used in this project" table added under Notation in Part 3.
-14. Code explanations: line-by-line tables, and a task list per Python file (reads, does, writes).
+14. Done: code_index.md lists what every script reads and writes, including the checks, picture scripts and experiments.
 15. Formulas written like in a thesis (test real equations in the doc, otherwise use the PDF route).
 16. Done: "Unsolved problems" added after "Limits and open questions" in the documentation.
 17. Dropped on 2026-11-13: no "Mistaken concepts" section.

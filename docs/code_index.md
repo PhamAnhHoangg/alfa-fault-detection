@@ -59,7 +59,7 @@ Line numbers refer to the repository at the commit that added this file. If a sc
 | Detector F | `src/04_final_test.py` 24 to 28 | random forest, 300 trees, threshold 0.5, `persist(..., 3)` |
 | Detector D2 | `src/04_final_test.py` 29 to 33 | frozen channel or a throttle rule |
 | Fig1 data | `src/05_figures.py` 25 to 61 | rules, forest, one engine test flight |
-| Fig2 data | `src/05_figures.py` 63 to 79 | raw rc-out channels around the fault (the title text is typed in, line 76) |
+| Fig2 data | `src/05_figures.py` 63 to 79 | raw rc-out channels around the fault |
 | Out-of-fold forest | `src/06_oof_predictions.py` 12 to 23 | train on four folds, predict the fifth, then `persist` |
 | Fig3 recall | `src/07_health_figures.py` 15 to 38 | share of fault seconds with an alarm, per fault type |
 | Fig4 confusion matrix | `src/07_health_figures.py` 41 to 51 | `normalize="true"` |
@@ -77,6 +77,25 @@ Line numbers refer to the repository at the commit that added this file. If a sc
 | Learning curve | `src/17_learning_curve.py` 12 to 47 | whole flights drawn at 25, 50, 75 and 100 percent |
 | Final model | `src/18_train_final.py` 17 to 25 | forest trained on all development flights, saved with `joblib.dump` |
 | API | `src/api.py` 25 to 73 | `load_bundle` (25), `persistent_alarm` (32), `/health` (46), `/predict` (53) |
+
+## Checks, pictures and experiments
+
+These are not part of the main run order.
+
+| Script | Reads | Writes |
+|---|---|---|
+| `src/20_session_overlap.py` | raw IMU files, `split.csv` | prints each session's time range and the sessions that overlap |
+| `src/export_gif_data.py` | one raw flight, `table.csv`, `split.csv` | small CSV snippets in `results/gif_data/` |
+| `src/export_fig_data.py` | `results/oof_predictions.csv`, `results/model_comparison.csv`, `table.csv`, `table2.csv`, `split.csv` | small CSV snippets in `results/gif_data/` |
+| `src/make_diagrams.py` | nothing | `figures/diagram1` to `diagram4` |
+| `src/make_gifs.py` | `docs/gif_data/per_second_example.csv`, `example_info.csv` | `figures/gif1` to `gif4` |
+| `src/make_gifs_data.py` | `docs/gif_data/` snippets, `figures/fig7` | `figures/gif3`, `gif5`, `gif6`, `walkthrough_numbers.mp4` |
+| `src/make_gifs_figs.py` | `figures/fig*.png`, `docs/gif_data/fig*_*.csv` | `figures/gif_fig1` to `gif_fig6`, `gif_fig8` |
+| `experiments/trace_fig7_*.py` | `table.csv`, `split.csv` | prints the fig7 engine cell step by step; `trace_fig7_csv.py` writes `results/fig7_engine_trace.csv` |
+| `experiments/drift_check.py` | `table.csv`, `split.csv` | prints the engine column with and without the first 30 s of each flight |
+| `experiments/screening_dev_only.py` | raw flights, `split.csv` | prints the signal screening ranks on all flights and on dev flights only |
+
+The export scripts write to `results/gif_data/`, which is git-ignored, but the GIF scripts read `docs/gif_data/`. After running an export script, copy the new CSV files from `results/gif_data/` to `docs/gif_data/` by hand. Both `make_gifs.py` and `make_gifs_data.py` write `gif3_split.gif`, so the one run last decides which version is kept. Scripts in `experiments/` that import `evalkit` need `$env:PYTHONPATH = "src"`.
 
 ## Tests
 
